@@ -1,8 +1,9 @@
 <!DOCTYPE html>
+
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Circle (CRCL) 日常追踪仪表盘 · Enhanced</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
@@ -183,1202 +184,1132 @@
 </style>
 </head>
 <body>
-
 <header>
-  <div class="title-block">
-    <h1>Circle Internet Group (CRCL) · 日常追踪仪表盘 <span style="font-size:12px;color:var(--accent-2);">v2 Enhanced</span></h1>
-    <div class="sub">USDC 发行方 · 截至 2026-06-04</div>
-  </div>
-  <div style="display:flex; gap:10px; align-items:center;">
-    <button class="reload-btn" onclick="refreshLiveData()">🔄 刷新 Live 数据</button>
-    <div class="ticker-chip"><span class="dot"></span> NYSE: CRCL · USD</div>
-  </div>
-</header>
-
-<div class="status-banner">
-  <span id="liveStatus">🟢 Live 数据：DefiLlama USDC 流通量 · 稳定币总规模 / 静态数据：股价 + 财务（更新 2026-05-29）</span>
-  <span style="font-size:11px;">最后刷新：<span id="lastFetch">点击 🔄 加载</span></span>
+<div class="title-block">
+<h1>Circle Internet Group (CRCL) · 日常追踪仪表盘 <span style="font-size:12px;color:var(--accent-2);">v2 Enhanced</span></h1>
+<div class="sub">USDC 发行方 · 自动刷新 2026-06-04</div>
 </div>
-
+<div style="display:flex; gap:10px; align-items:center;">
+<button class="reload-btn" onclick="refreshLiveData()">🔄 刷新 Live 数据</button>
+<div class="ticker-chip"><span class="dot"></span> NYSE: CRCL · USD</div>
+</div>
+</header>
+<div class="status-banner">
+<span id="liveStatus">🟢 Live 数据：DefiLlama USDC 流通量 · 稳定币总规模 / 静态数据：股价 + 财务（更新 2026-05-29）</span>
+<span style="font-size:11px;">最后刷新：<span id="lastFetch">点击 🔄 加载</span></span>
+</div>
 <!-- 顶部 KPI -->
 <div class="grid cols-5">
-  <div class="card"><h3>当前股价</h3>
-    <div class="kpi">$90.13 <span class="delta-down" style="font-size:14px;">-10.63%</span></div>
-    <div class="kpi-sub">2026-06-03 收盘 · 自动更新</div>
-  </div>
-  <div class="card"><h3>市值</h3>
-    <div class="kpi">$26.4 B</div>
-    <div class="kpi-sub">流通股 ~248.6M · EV ≈ $25.2B</div>
-  </div>
-  <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-    <div class="kpi" id="usdcLive">$77.0 B</div>
-    <div class="kpi-sub" id="usdcLiveSub">Q1 2026 末 · 等待 DefiLlama 更新</div>
-  </div>
-  <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-    <div class="kpi" id="totalStableLive">$323 B</div>
-    <div class="kpi-sub" id="totalStableSub">USDC 市占 ~24% · USDT ~59%</div>
-  </div>
-  <div class="card"><h3>分析师共识</h3>
-    <div class="kpi">Buy</div>
-    <div class="kpi-sub">12 Buy / 5 Hold / 1 Sell · 目标价 $142 中位</div>
-  </div>
+<div class="card"><h3>当前股价</h3>
+<div class="kpi">$90.13 <span class="delta-down" style="font-size:14px;">-10.63%</span></div>
+<div class="kpi-sub">2026-06-03 收盘 · 自动更新 2026-06-04</div>
 </div>
-
+<div class="card"><h3>市值</h3>
+<div class="kpi">$26.4 B</div>
+<div class="kpi-sub">流通股 ~248.6M · EV ≈ $25.2B</div>
+</div>
+<div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
+<div class="kpi" id="usdcLive">$76.1 B</div>
+<div class="kpi-sub" id="usdcLiveSub">DefiLlama 实时 · 自动刷新 2026-06-04</div>
+</div>
+<div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
+<div class="kpi" id="totalStableLive">$317 B</div>
+<div class="kpi-sub" id="totalStableSub">USDC 24.0% · USDT 59.2%</div>
+</div>
+<div class="card"><h3>分析师共识</h3>
+<div class="kpi">Buy</div>
+<div class="kpi-sub">12 Buy / 5 Hold / 1 Sell · 目标价 $142 中位</div>
+</div>
+</div>
 <!-- Tab 导航 -->
 <nav class="tabs" role="tablist">
-  <button class="tab-btn active" data-tab="fundamentals">🏢 公司基本面</button>
-  <button class="tab-btn" data-tab="dynamics">📰 公司动态</button>
-  <button class="tab-btn" data-tab="market">🌐 市场环境</button>
-  <button class="tab-btn" data-tab="valuation">📊 公司估值</button>
-  <button class="tab-btn" data-tab="views">💡 市场观点</button>
-  <button class="tab-btn" data-tab="filings">📄 公告/SEC</button>
-  <button class="tab-btn" data-tab="technical">📈 股价/技术面</button>
-  <button class="tab-btn" data-tab="daily">📋 每日追踪</button>
+<button class="tab-btn active" data-tab="fundamentals">🏢 公司基本面</button>
+<button class="tab-btn" data-tab="dynamics">📰 公司动态</button>
+<button class="tab-btn" data-tab="market">🌐 市场环境</button>
+<button class="tab-btn" data-tab="valuation">📊 公司估值</button>
+<button class="tab-btn" data-tab="views">💡 市场观点</button>
+<button class="tab-btn" data-tab="filings">📄 公告/SEC</button>
+<button class="tab-btn" data-tab="technical">📈 股价/技术面</button>
+<button class="tab-btn" data-tab="daily">📋 每日追踪</button>
 </nav>
-
 <!-- ============ 7. 股价 / 技术面（移至末尾）============ -->
 <section class="panel" id="technical">
-
-  <!-- 股价摘要 -->
-  <div class="grid cols-5">
-    <div class="card"><h3>收盘价</h3>
-      <div class="kpi" id="tPrice">$108.24</div>
-      <div class="kpi-sub" id="tChange"><span class="delta-up">+$5.60 (+5.46%)</span> · 2026-05-28</div>
-    </div>
-    <div class="card"><h3>当日区间</h3>
-      <div class="kpi">$97.69 – $108.38</div>
-      <div class="kpi-sub">振幅 10.97%（10.7%）</div>
-    </div>
-    <div class="card"><h3>成交量</h3>
-      <div class="kpi">11.38 M</div>
-      <div class="kpi-sub">90D 均量 ~15.6M · 当日 0.73× 均量</div>
-    </div>
-    <div class="card"><h3>52 周区间</h3>
-      <div class="kpi">$49.90 – $298.99</div>
-      <div class="kpi-sub">距 52W 高 -64% · 距 52W 低 +117%</div>
-    </div>
-    <div class="card"><h3>RSI(14) / 趋势</h3>
-      <div class="kpi" id="tRSI">52.3</div>
-      <div class="kpi-sub" id="tRSISub">中性 · 上方阻力 $120 / 下方支撑 $95</div>
-    </div>
-  </div>
-
-  <!-- 主价格图 + Bollinger + SMA -->
-  <div class="card" style="margin-top:14px;">
-    <h3>K 线走势 + SMA20 / SMA50 + Bollinger Bands (20,2)
+<!-- 股价摘要 -->
+<div class="grid cols-5">
+<div class="card"><h3>收盘价</h3>
+<div class="kpi" id="tPrice">$108.24</div>
+<div class="kpi-sub" id="tChange"><span class="delta-up">+$5.60 (+5.46%)</span> · 2026-05-28</div>
+</div>
+<div class="card"><h3>当日区间</h3>
+<div class="kpi">$97.69 – $108.38</div>
+<div class="kpi-sub">振幅 10.97%（10.7%）</div>
+</div>
+<div class="card"><h3>成交量</h3>
+<div class="kpi">11.38 M</div>
+<div class="kpi-sub">90D 均量 ~15.6M · 当日 0.73× 均量</div>
+</div>
+<div class="card"><h3>52 周区间</h3>
+<div class="kpi">$49.90 – $298.99</div>
+<div class="kpi-sub">距 52W 高 -64% · 距 52W 低 +117%</div>
+</div>
+<div class="card"><h3>RSI(14) / 趋势</h3>
+<div class="kpi" id="tRSI">52.3</div>
+<div class="kpi-sub" id="tRSISub">中性 · 上方阻力 $120 / 下方支撑 $95</div>
+</div>
+</div>
+<!-- 主价格图 + Bollinger + SMA -->
+<div class="card" style="margin-top:14px;">
+<h3>K 线走势 + SMA20 / SMA50 + Bollinger Bands (20,2)
       <span class="range-tabs">
-        <button class="range-btn active" data-px="1M">1M</button>
-        <button class="range-btn" data-px="3M">3M</button>
-        <button class="range-btn" data-px="YTD">YTD</button>
-        <button class="range-btn" data-px="IPO">IPO 以来</button>
-      </span>
-    </h3>
-    <div style="display:flex; gap:8px; margin-top:-4px; margin-bottom:8px; align-items:center;">
-      <span style="font-size:11px; color:var(--muted);">粒度：</span>
-      <span class="range-tabs" style="margin-left:0;">
-        <button class="range-btn active" data-tf="D">日线</button>
-        <button class="range-btn" data-tf="W">周线</button>
-        <button class="range-btn" data-tf="M">月线</button>
-      </span>
-      <span style="font-size:11px; color:var(--muted); margin-left:auto;" id="tfHint">1M × 日线：22 个交易日</span>
-    </div>
-    <div class="chart-wrap tall"><canvas id="priceChart"></canvas></div>
-    <div class="note">阳线绿色 / 阴线红色。阴影带：±2σ Bollinger 通道。可自由组合<strong>时间范围 × 粒度</strong>（如 IPO × 月线给出最长周期高度浓缩视图）。</div>
-  </div>
-
-  <!-- 成交量 -->
-  <div class="card" style="margin-top:14px;">
-    <h3>成交量分布（绿涨红跌）</h3>
-    <div class="chart-wrap"><canvas id="volChart"></canvas></div>
-    <div class="note">关键放量日：05/11 Q1 财报 49.8M、03/24 Tether 审计公告 56.3M、02/25 Earn 监管反弹 63.8M、05/12 财报后追涨 29.5M。</div>
-  </div>
-
-  <!-- RSI 与 MACD -->
-  <div class="grid cols-2" style="margin-top:14px;">
-    <div class="card"><h3>RSI(14) — 相对强弱指数</h3>
-      <div class="chart-wrap"><canvas id="rsiChart"></canvas></div>
-      <div class="note">70 上方=超买，30 下方=超卖。Q1 财报后 RSI 一度冲至 75，目前回落至 52 中性区。</div>
-    </div>
-    <div class="card"><h3>MACD (12,26,9)</h3>
-      <div class="chart-wrap"><canvas id="macdChart"></canvas></div>
-      <div class="note">MACD 在 5/15-5/22 出现死叉（绿线下穿红线），近期柱状图收窄，等待下一轮信号确认。</div>
-    </div>
-  </div>
-
-  <!-- 关键事件 + 支撑阻力 -->
-  <div class="two-col" style="margin-top:14px;">
-    <div class="card">
-      <h3>🎯 关键支撑 / 阻力位</h3>
-      <table>
-        <thead><tr><th>类型</th><th>价位</th><th>形成依据</th></tr></thead>
-        <tbody>
-          <tr><td class="neg">强阻力 R3</td><td>$140.00</td><td>05/12 财报次日盘中高，二次冲高失败</td></tr>
-          <tr><td class="neg">阻力 R2</td><td>$131.76</td><td>05/11 Q1 财报日收盘高</td></tr>
-          <tr><td class="neg">阻力 R1</td><td>$119.50 – 122.00</td><td>05/04-05/06 突破平台 + 上轨 Bollinger 区</td></tr>
-          <tr><td class="warn">轴心 Pivot</td><td>$110.00</td><td>近 20 日成交密集区</td></tr>
-          <tr><td class="pos">支撑 S1</td><td>$100 – 102</td><td>SMA20 + 多次回测有效</td></tr>
-          <tr><td class="pos">支撑 S2</td><td>$90 – 95</td><td>SMA50 + 04 月平台底</td></tr>
-          <tr><td class="pos">强支撑 S3</td><td>$85.10</td><td>04/09 反弹起点</td></tr>
-          <tr><td class="pos">极限支撑</td><td>$49.90</td><td>52 周低点 · 02/05 恐慌底</td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card">
-      <h3>📅 关键事件 → 股价反应</h3>
-      <table>
-        <thead><tr><th>日期</th><th>事件</th><th>涨跌</th></tr></thead>
-        <tbody>
-          <tr><td>05/28</td><td>反弹回补 + 期权 mixed sentiment</td><td class="pos">+5.46%</td></tr>
-          <tr><td>05/26</td><td>回踩 SMA20</td><td class="neg">-7.91%</td></tr>
-          <tr><td>05/15</td><td>财报后获利了结 + MS 上调目标</td><td class="neg">-7.98%</td></tr>
-          <tr><td>05/12</td><td>追涨日 H $140</td><td class="neg">-6.16%</td></tr>
-          <tr><td><strong>05/11</strong></td><td><strong>Q1 财报 + Arc $222M Presale 公告</strong></td><td class="pos"><strong>+15.91%</strong></td></tr>
-          <tr><td>05/04</td><td>CLARITY Act 妥协 + 突破</td><td class="pos">+19.89%</td></tr>
-          <tr><td><strong>03/24</strong></td><td><strong>Tether 审计达里程碑 / 监管担忧</strong></td><td class="neg"><strong>-20.11%</strong></td></tr>
-          <tr><td>03/17</td><td>Baird 上调目标价</td><td class="pos">+5.15%</td></tr>
-          <tr><td>03/02</td><td>GENIUS Act 实施细则正面</td><td class="pos">+15.22%</td></tr>
-          <tr><td><strong>02/25</strong></td><td><strong>Senate stablecoin 调和版本</strong></td><td class="pos"><strong>+35.47%</strong></td></tr>
-          <tr><td>02/05</td><td>52w 低点 $49.90 · 监管恐慌</td><td class="neg">-8.76%</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 技术指标综合 -->
-  <details class="expand" open style="margin-top:14px;">
-    <summary>🧪 技术面综合判断（基于嵌入数据自动计算）</summary>
-    <div class="body">
-      <div class="grid cols-4" style="margin-bottom:12px;">
-        <div class="card" style="background:var(--panel-2);">
-          <h3>SMA20</h3>
-          <div class="kpi" id="sma20Val">--</div>
-          <div class="kpi-sub" id="sma20Status">vs 现价</div>
-        </div>
-        <div class="card" style="background:var(--panel-2);">
-          <h3>SMA50</h3>
-          <div class="kpi" id="sma50Val">--</div>
-          <div class="kpi-sub" id="sma50Status">vs 现价</div>
-        </div>
-        <div class="card" style="background:var(--panel-2);">
-          <h3>Bollinger 上轨</h3>
-          <div class="kpi" id="bbUpper">--</div>
-          <div class="kpi-sub" id="bbStatus">通道位置</div>
-        </div>
-        <div class="card" style="background:var(--panel-2);">
-          <h3>ATR(14)</h3>
-          <div class="kpi" id="atrVal">--</div>
-          <div class="kpi-sub">真实波幅</div>
-        </div>
-      </div>
-      <p style="font-size:13px; line-height:1.75;">
-        <strong>技术结构</strong>：02/05 探底 $49.90 后走出强劲反弹，02/25 单日 +35% 完成突破，3 月初突破 $100 后加速至 03/18 高点 $135.49，03/24 因 Tether 审计利空单日暴跌 -20%（成交 56M），4 月底于 $85-100 完成底部构筑，05/04 CLARITY 妥协再次突破 $120，05/11 Q1 财报触发 +15.91% 高潮 ($131.76)，随后高位震荡回落至 $108 SMA20 区附近。<br><br>
-        <strong>当前格局</strong>：日线进入<strong>财报后整理段</strong>，价格在 SMA20 (~$112) 与 SMA50 (~$103) 之间窄幅运行。RSI 中性、MACD 5/15 死叉后柱状图收窄。<strong>关键节点</strong>：上破 $120 → 重新打开 $132-140 区间；跌破 $95 → 退守 $85 强支撑。<br><br>
-        <strong>近期短线信号</strong>：05/28 + 5.46% 反弹回到 SMA20，量能不足（11.4M vs 均量 15.6M），<strong>等待量价配合突破或假突破</strong>。
+<button class="range-btn active" data-px="1M">1M</button>
+<button class="range-btn" data-px="3M">3M</button>
+<button class="range-btn" data-px="YTD">YTD</button>
+<button class="range-btn" data-px="IPO">IPO 以来</button>
+</span>
+</h3>
+<div style="display:flex; gap:8px; margin-top:-4px; margin-bottom:8px; align-items:center;">
+<span style="font-size:11px; color:var(--muted);">粒度：</span>
+<span class="range-tabs" style="margin-left:0;">
+<button class="range-btn active" data-tf="D">日线</button>
+<button class="range-btn" data-tf="W">周线</button>
+<button class="range-btn" data-tf="M">月线</button>
+</span>
+<span id="tfHint" style="font-size:11px; color:var(--muted); margin-left:auto;">1M × 日线：22 个交易日</span>
+</div>
+<div class="chart-wrap tall"><canvas id="priceChart"></canvas></div>
+<div class="note">阳线绿色 / 阴线红色。阴影带：±2σ Bollinger 通道。可自由组合<strong>时间范围 × 粒度</strong>（如 IPO × 月线给出最长周期高度浓缩视图）。</div>
+</div>
+<!-- 成交量 -->
+<div class="card" style="margin-top:14px;">
+<h3>成交量分布（绿涨红跌）</h3>
+<div class="chart-wrap"><canvas id="volChart"></canvas></div>
+<div class="note">关键放量日：05/11 Q1 财报 49.8M、03/24 Tether 审计公告 56.3M、02/25 Earn 监管反弹 63.8M、05/12 财报后追涨 29.5M。</div>
+</div>
+<!-- RSI 与 MACD -->
+<div class="grid cols-2" style="margin-top:14px;">
+<div class="card"><h3>RSI(14) — 相对强弱指数</h3>
+<div class="chart-wrap"><canvas id="rsiChart"></canvas></div>
+<div class="note">70 上方=超买，30 下方=超卖。Q1 财报后 RSI 一度冲至 75，目前回落至 52 中性区。</div>
+</div>
+<div class="card"><h3>MACD (12,26,9)</h3>
+<div class="chart-wrap"><canvas id="macdChart"></canvas></div>
+<div class="note">MACD 在 5/15-5/22 出现死叉（绿线下穿红线），近期柱状图收窄，等待下一轮信号确认。</div>
+</div>
+</div>
+<!-- 关键事件 + 支撑阻力 -->
+<div class="two-col" style="margin-top:14px;">
+<div class="card">
+<h3>🎯 关键支撑 / 阻力位</h3>
+<table>
+<thead><tr><th>类型</th><th>价位</th><th>形成依据</th></tr></thead>
+<tbody>
+<tr><td class="neg">强阻力 R3</td><td>$140.00</td><td>05/12 财报次日盘中高，二次冲高失败</td></tr>
+<tr><td class="neg">阻力 R2</td><td>$131.76</td><td>05/11 Q1 财报日收盘高</td></tr>
+<tr><td class="neg">阻力 R1</td><td>$119.50 – 122.00</td><td>05/04-05/06 突破平台 + 上轨 Bollinger 区</td></tr>
+<tr><td class="warn">轴心 Pivot</td><td>$110.00</td><td>近 20 日成交密集区</td></tr>
+<tr><td class="pos">支撑 S1</td><td>$100 – 102</td><td>SMA20 + 多次回测有效</td></tr>
+<tr><td class="pos">支撑 S2</td><td>$90 – 95</td><td>SMA50 + 04 月平台底</td></tr>
+<tr><td class="pos">强支撑 S3</td><td>$85.10</td><td>04/09 反弹起点</td></tr>
+<tr><td class="pos">极限支撑</td><td>$49.90</td><td>52 周低点 · 02/05 恐慌底</td></tr>
+</tbody>
+</table>
+</div>
+<div class="card">
+<h3>📅 关键事件 → 股价反应</h3>
+<table>
+<thead><tr><th>日期</th><th>事件</th><th>涨跌</th></tr></thead>
+<tbody>
+<tr><td>05/28</td><td>反弹回补 + 期权 mixed sentiment</td><td class="pos">+5.46%</td></tr>
+<tr><td>05/26</td><td>回踩 SMA20</td><td class="neg">-7.91%</td></tr>
+<tr><td>05/15</td><td>财报后获利了结 + MS 上调目标</td><td class="neg">-7.98%</td></tr>
+<tr><td>05/12</td><td>追涨日 H $140</td><td class="neg">-6.16%</td></tr>
+<tr><td><strong>05/11</strong></td><td><strong>Q1 财报 + Arc $222M Presale 公告</strong></td><td class="pos"><strong>+15.91%</strong></td></tr>
+<tr><td>05/04</td><td>CLARITY Act 妥协 + 突破</td><td class="pos">+19.89%</td></tr>
+<tr><td><strong>03/24</strong></td><td><strong>Tether 审计达里程碑 / 监管担忧</strong></td><td class="neg"><strong>-20.11%</strong></td></tr>
+<tr><td>03/17</td><td>Baird 上调目标价</td><td class="pos">+5.15%</td></tr>
+<tr><td>03/02</td><td>GENIUS Act 实施细则正面</td><td class="pos">+15.22%</td></tr>
+<tr><td><strong>02/25</strong></td><td><strong>Senate stablecoin 调和版本</strong></td><td class="pos"><strong>+35.47%</strong></td></tr>
+<tr><td>02/05</td><td>52w 低点 $49.90 · 监管恐慌</td><td class="neg">-8.76%</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- 技术指标综合 -->
+<details class="expand" open="" style="margin-top:14px;">
+<summary>🧪 技术面综合判断（基于嵌入数据自动计算）</summary>
+<div class="body">
+<div class="grid cols-4" style="margin-bottom:12px;">
+<div class="card" style="background:var(--panel-2);">
+<h3>SMA20</h3>
+<div class="kpi" id="sma20Val">--</div>
+<div class="kpi-sub" id="sma20Status">vs 现价</div>
+</div>
+<div class="card" style="background:var(--panel-2);">
+<h3>SMA50</h3>
+<div class="kpi" id="sma50Val">--</div>
+<div class="kpi-sub" id="sma50Status">vs 现价</div>
+</div>
+<div class="card" style="background:var(--panel-2);">
+<h3>Bollinger 上轨</h3>
+<div class="kpi" id="bbUpper">--</div>
+<div class="kpi-sub" id="bbStatus">通道位置</div>
+</div>
+<div class="card" style="background:var(--panel-2);">
+<h3>ATR(14)</h3>
+<div class="kpi" id="atrVal">--</div>
+<div class="kpi-sub">真实波幅</div>
+</div>
+</div>
+<p style="font-size:13px; line-height:1.75;">
+<strong>技术结构</strong>：02/05 探底 $49.90 后走出强劲反弹，02/25 单日 +35% 完成突破，3 月初突破 $100 后加速至 03/18 高点 $135.49，03/24 因 Tether 审计利空单日暴跌 -20%（成交 56M），4 月底于 $85-100 完成底部构筑，05/04 CLARITY 妥协再次突破 $120，05/11 Q1 财报触发 +15.91% 高潮 ($131.76)，随后高位震荡回落至 $108 SMA20 区附近。<br/><br/>
+<strong>当前格局</strong>：日线进入<strong>财报后整理段</strong>，价格在 SMA20 (~$112) 与 SMA50 (~$103) 之间窄幅运行。RSI 中性、MACD 5/15 死叉后柱状图收窄。<strong>关键节点</strong>：上破 $120 → 重新打开 $132-140 区间；跌破 $95 → 退守 $85 强支撑。<br/><br/>
+<strong>近期短线信号</strong>：05/28 + 5.46% 反弹回到 SMA20，量能不足（11.4M vs 均量 15.6M），<strong>等待量价配合突破或假突破</strong>。
       </p>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🎲 期权与机构持仓信号</summary>
-    <div class="body">
-      <ul class="news">
-        <li><span class="date">05/28</span> Cboe 期权数据显示<strong>混合情绪</strong>（mixed sentiment），CRCL 当日 +2.8% 时大单中性</li>
-        <li><span class="date">05/21</span> 期权适度看涨（moderately bullish activity），股价 +1.22%</li>
-        <li><span class="date">机构持仓</span> 近期被多家投行覆盖：Morgan Stanley、KeyBanc、Baird 新启动 / 上调评级</li>
-        <li><span class="date">流动性</span> 90 日平均成交 ~15.6M 股/日；财报日激增至 49.8M（3.2× 均量）</li>
-      </ul>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🌐 跳转专业图表平台</summary>
-    <div class="body">
-      <div class="links">
-        <a href="https://www.tradingview.com/symbols/NYSE-CRCL/" target="_blank">TradingView 完整 K 线 →</a>
-        <a href="https://finance.yahoo.com/quote/CRCL/chart" target="_blank">Yahoo Finance 图表 →</a>
-        <a href="https://stockanalysis.com/stocks/crcl/" target="_blank">StockAnalysis 实时 →</a>
-        <a href="https://www.barchart.com/stocks/quotes/CRCL/technical-analysis" target="_blank">Barchart 技术分析 →</a>
-        <a href="https://www.investing.com/equities/circle-internet-group-inc-technical" target="_blank">Investing.com 技术 →</a>
-      </div>
-    </div>
-  </details>
+</div>
+</details>
+<details class="expand">
+<summary>🎲 期权与机构持仓信号</summary>
+<div class="body">
+<ul class="news">
+<li><span class="date">05/28</span> Cboe 期权数据显示<strong>混合情绪</strong>（mixed sentiment），CRCL 当日 +2.8% 时大单中性</li>
+<li><span class="date">05/21</span> 期权适度看涨（moderately bullish activity），股价 +1.22%</li>
+<li><span class="date">机构持仓</span> 近期被多家投行覆盖：Morgan Stanley、KeyBanc、Baird 新启动 / 上调评级</li>
+<li><span class="date">流动性</span> 90 日平均成交 ~15.6M 股/日；财报日激增至 49.8M（3.2× 均量）</li>
+</ul>
+</div>
+</details>
+<details class="expand">
+<summary>🌐 跳转专业图表平台</summary>
+<div class="body">
+<div class="links">
+<a href="https://www.tradingview.com/symbols/NYSE-CRCL/" target="_blank">TradingView 完整 K 线 →</a>
+<a href="https://finance.yahoo.com/quote/CRCL/chart" target="_blank">Yahoo Finance 图表 →</a>
+<a href="https://stockanalysis.com/stocks/crcl/" target="_blank">StockAnalysis 实时 →</a>
+<a href="https://www.barchart.com/stocks/quotes/CRCL/technical-analysis" target="_blank">Barchart 技术分析 →</a>
+<a href="https://www.investing.com/equities/circle-internet-group-inc-technical" target="_blank">Investing.com 技术 →</a>
+</div>
+</div>
+</details>
 </section>
-
 <!-- ============ 1. 公司基本面 ============ -->
 <section class="panel active" id="fundamentals">
-
-  <!-- ▍A. 当季快照 -->
-  <h2 class="section-title">📌 A. Q1 2026 最新快照</h2>
-  <div class="grid cols-4">
-    <div class="card"><h3>总收入</h3>
-      <div class="kpi">$694 M</div>
-      <div class="kpi-sub"><span class="delta-up">+20% YoY</span> · vs 预期 $715M（<span class="neg">略miss</span>）</div>
-    </div>
-    <div class="card"><h3>归母净利润</h3>
-      <div class="kpi">$55 M</div>
-      <div class="kpi-sub"><span class="delta-down">-15% YoY</span> · OpEx +76% IPO 股权激励</div>
-    </div>
-    <div class="card"><h3>USDC 流通</h3>
-      <div class="kpi">$77 B</div>
-      <div class="kpi-sub"><span class="delta-up">+28% YoY</span> · 季环比 +$1.7B</div>
-    </div>
-    <div class="card"><h3>调整 EBITDA</h3>
-      <div class="kpi">$151 M</div>
-      <div class="kpi-sub"><span class="delta-up">+24% YoY</span> · 利润率 53%</div>
-    </div>
-  </div>
-
-  <!-- ▍B. 季度核心指标历史柱状图（6 张） -->
-  <h2 class="section-title">📊 B. 季度核心指标历史对比（9 个季度柱状图）</h2>
-  <div class="grid cols-2">
-    <div class="card"><h3>季度总收入（百万美元）</h3>
-      <div class="chart-wrap"><canvas id="qRevChart"></canvas></div>
-    </div>
-    <div class="card"><h3>季度归母净利润（百万美元）</h3>
-      <div class="chart-wrap"><canvas id="qNiChart"></canvas></div>
-    </div>
-  </div>
-  <div class="grid cols-2" style="margin-top:14px;">
-    <div class="card"><h3>USDC 季末流通量（十亿美元）</h3>
-      <div class="chart-wrap"><canvas id="qUsdcChart"></canvas></div>
-    </div>
-    <div class="card"><h3>链上交易量（万亿美元）</h3>
-      <div class="chart-wrap"><canvas id="qOnchainChart"></canvas></div>
-    </div>
-  </div>
-  <div class="grid cols-2" style="margin-top:14px;">
-    <div class="card"><h3>调整后 EBITDA（百万美元）</h3>
-      <div class="chart-wrap"><canvas id="qEbitdaChart"></canvas></div>
-    </div>
-    <div class="card"><h3>季度收入 YoY 增速 (%)</h3>
-      <div class="chart-wrap"><canvas id="qYoyChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ▍C. 年度趋势 -->
-  <h2 class="section-title">📈 C. 年度趋势（2022 → 2027E）</h2>
-  <div class="grid cols-2">
-    <div class="card">
-      <h3>收入 vs 净利润（柱+折线）<span class="range-tabs">
-        <button class="range-btn active" data-rev="annual">Annual</button>
-        <button class="range-btn" data-rev="quarterly">Quarterly</button>
-      </span></h3>
-      <div class="chart-wrap"><canvas id="revChart"></canvas></div>
-    </div>
-    <div class="card"><h3>利润率走势：毛利率 / 营业 / 净利率</h3>
-      <div class="chart-wrap"><canvas id="marginChart"></canvas></div>
-    </div>
-  </div>
-  <div class="grid cols-2" style="margin-top:14px;">
-    <div class="card"><h3>储备收入 vs 其他收入（年度拆分，堆叠柱）</h3>
-      <div class="chart-wrap"><canvas id="revSplitChart"></canvas></div>
-    </div>
-    <div class="card"><h3>分销费用 vs 总收入（占比缩窄是关键）</h3>
-      <div class="chart-wrap"><canvas id="distChart"></canvas></div>
-    </div>
-  </div>
-
-  <!-- ▍D. 年度财务全景表 -->
-  <h2 class="section-title">📋 D. 年度财务全景表</h2>
-  <div class="card">
-    <table>
-      <thead><tr>
-        <th>指标 (USD M)</th><th>2022A</th><th>2023A</th><th>2024A</th><th>2025A</th>
-        <th>2026E Wall St</th><th>2026E 国投</th><th>2027E 国投</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>总收入</td><td>772</td><td>1,450</td><td>1,676</td><td>2,746</td><td>3,286</td><td>3,276</td><td>4,387</td></tr>
-        <tr><td>同比增速</td><td>—</td><td class="pos">+87.9%</td><td class="pos">+15.6%</td><td class="pos">+63.9%</td><td class="pos">+19.7%</td><td class="pos">+19.3%</td><td class="pos">+33.9%</td></tr>
-        <tr><td>储备收入</td><td>736</td><td>1,431</td><td>1,661</td><td>~2,650</td><td>—</td><td>3,071</td><td>4,080</td></tr>
-        <tr><td>其他收入</td><td>36</td><td>20</td><td>15</td><td>~97</td><td>—</td><td>204</td><td>307</td></tr>
-        <tr><td>分销/交易费</td><td>287</td><td>720</td><td>1,011</td><td>~1,650</td><td>—</td><td>1,992</td><td>2,575</td></tr>
-        <tr><td>调整后 EBITDA</td><td>—</td><td>—</td><td>~280</td><td>~500</td><td>—</td><td>~520</td><td>~780</td></tr>
-        <tr><td>归母净利润</td><td class="neg">-769</td><td class="pos">268</td><td class="pos">156</td><td class="neg">-70</td><td class="pos">274</td><td class="pos">385</td><td class="pos">603</td></tr>
-        <tr><td>净利率</td><td class="neg">-99.6%</td><td class="pos">18.4%</td><td class="pos">9.3%</td><td class="neg">-2.5%</td><td class="pos">8.3%</td><td class="pos">11.8%</td><td class="pos">13.7%</td></tr>
-        <tr><td>摊薄 EPS ($)</td><td>-16.33</td><td>4.02</td><td>2.15</td><td>~-0.30</td><td>1.04</td><td>1.51</td><td>2.29</td></tr>
-      </tbody>
-    </table>
-    <div class="note">2025A 实际季度：Q1 $589M / Q2 $660M / Q3 $740M / Q4 $770M；全年净亏 -$70M 主要源于 IPO 触发的 $424M 一次性股权激励。</div>
-  </div>
-
-  <!-- ▍E. 最近 5 季度详细对比 -->
-  <h2 class="section-title">📅 E. 最近 5 季度详细对比</h2>
-  <div class="card">
-    <table>
-      <thead><tr>
-        <th>季度指标</th><th>Q1 2025</th><th>Q2 2025</th><th>Q3 2025</th><th>Q4 2025</th><th>Q1 2026</th>
-      </tr></thead>
-      <tbody>
-        <tr><td>总收入 ($M)</td><td>589</td><td>660</td><td>740</td><td>770</td><td>694</td></tr>
-        <tr><td>YoY 增速</td><td class="pos">+58%</td><td class="pos">+62%</td><td class="pos">+66%</td><td class="pos">+77%</td><td class="pos">+20%</td></tr>
-        <tr><td>QoQ 增速</td><td>—</td><td class="pos">+12%</td><td class="pos">+12%</td><td class="pos">+4%</td><td class="neg">-10%</td></tr>
-        <tr><td>USDC 期末流通 ($B)</td><td>56</td><td>61</td><td>73.7</td><td>75.3</td><td>77.0</td></tr>
-        <tr><td>USDC YoY</td><td class="pos">+91%</td><td class="pos">+90%</td><td class="pos">+108%</td><td class="pos">+72%</td><td class="pos">+28%</td></tr>
-        <tr><td>链上交易量 ($T)</td><td>~5</td><td>~7</td><td>~9</td><td>11.9</td><td>21.5</td></tr>
-        <tr><td>归母净利润 ($M)</td><td class="pos">65</td><td class="pos">19</td><td class="pos">214</td><td class="pos">133</td><td class="pos">55</td></tr>
-        <tr><td>调整 EBITDA ($M)</td><td>~120</td><td>~130</td><td>166</td><td>167</td><td>151</td></tr>
-        <tr><td>EPS ($)</td><td>0.32</td><td>0.10</td><td>0.85</td><td>0.52</td><td>0.21</td></tr>
-      </tbody>
-    </table>
-    <div class="note">Q1 2026 收入 QoQ -10% 主要因 Q4 2025 高基数（季节性 + 高利率尾声）。USDC 流通量仍持续扩张，但 YoY 增速因基数走低（2025/02 USDC 单月曾 +21% 爆发）。</div>
-  </div>
-
-  <!-- ▍F. 储备结构 -->
-  <h2 class="section-title">🏦 F. USDC 储备资产结构（2025-11-28 官方披露）</h2>
-  <div class="grid cols-2">
-    <div class="card"><h3>资产类别明细</h3>
-      <table>
-        <thead><tr><th>资产类别</th><th>规模</th><th>占比</th></tr></thead>
-        <tbody>
-          <tr><td>美债隔夜逆回购</td><td>$40.6B</td><td>53.1%</td></tr>
-          <tr><td>3M 以内美国短债</td><td>$24.5B</td><td>32.0%</td></tr>
-          <tr><td>受监管银行现金</td><td>$10.4B</td><td>13.6%</td></tr>
-          <tr><td>Circle 储蓄基金现金</td><td>$1.0B</td><td>1.3%</td></tr>
-          <tr><td>出入金处置差额</td><td>-$0.08B</td><td>-0.1%</td></tr>
-          <tr style="background:var(--panel-2);"><td><strong>合计</strong></td><td><strong>$76.5B</strong></td><td><strong>100%</strong></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <div class="card"><h3>占比可视化</h3>
-      <div class="chart-wrap"><canvas id="reserveChart"></canvas></div>
-    </div>
-  </div>
-  <div class="card" style="margin-top:14px;">
-    <p style="font-size:13px; line-height:1.75; margin:0;">
+<!-- ▍A. 当季快照 -->
+<h2 class="section-title">📌 A. Q1 2026 最新快照</h2>
+<div class="grid cols-4">
+<div class="card"><h3>总收入</h3>
+<div class="kpi">$694 M</div>
+<div class="kpi-sub"><span class="delta-up">+20% YoY</span> · vs 预期 $715M（<span class="neg">略miss</span>）</div>
+</div>
+<div class="card"><h3>归母净利润</h3>
+<div class="kpi">$55 M</div>
+<div class="kpi-sub"><span class="delta-down">-15% YoY</span> · OpEx +76% IPO 股权激励</div>
+</div>
+<div class="card"><h3>USDC 流通</h3>
+<div class="kpi">$77 B</div>
+<div class="kpi-sub"><span class="delta-up">+28% YoY</span> · 季环比 +$1.7B</div>
+</div>
+<div class="card"><h3>调整 EBITDA</h3>
+<div class="kpi">$151 M</div>
+<div class="kpi-sub"><span class="delta-up">+24% YoY</span> · 利润率 53%</div>
+</div>
+</div>
+<!-- ▍B. 季度核心指标历史柱状图（6 张） -->
+<h2 class="section-title">📊 B. 季度核心指标历史对比（9 个季度柱状图）</h2>
+<div class="grid cols-2">
+<div class="card"><h3>季度总收入（百万美元）</h3>
+<div class="chart-wrap"><canvas id="qRevChart"></canvas></div>
+</div>
+<div class="card"><h3>季度归母净利润（百万美元）</h3>
+<div class="chart-wrap"><canvas id="qNiChart"></canvas></div>
+</div>
+</div>
+<div class="grid cols-2" style="margin-top:14px;">
+<div class="card"><h3>USDC 季末流通量（十亿美元）</h3>
+<div class="chart-wrap"><canvas id="qUsdcChart"></canvas></div>
+</div>
+<div class="card"><h3>链上交易量（万亿美元）</h3>
+<div class="chart-wrap"><canvas id="qOnchainChart"></canvas></div>
+</div>
+</div>
+<div class="grid cols-2" style="margin-top:14px;">
+<div class="card"><h3>调整后 EBITDA（百万美元）</h3>
+<div class="chart-wrap"><canvas id="qEbitdaChart"></canvas></div>
+</div>
+<div class="card"><h3>季度收入 YoY 增速 (%)</h3>
+<div class="chart-wrap"><canvas id="qYoyChart"></canvas></div>
+</div>
+</div>
+<!-- ▍C. 年度趋势 -->
+<h2 class="section-title">📈 C. 年度趋势（2022 → 2027E）</h2>
+<div class="grid cols-2">
+<div class="card">
+<h3>收入 vs 净利润（柱+折线）<span class="range-tabs">
+<button class="range-btn active" data-rev="annual">Annual</button>
+<button class="range-btn" data-rev="quarterly">Quarterly</button>
+</span></h3>
+<div class="chart-wrap"><canvas id="revChart"></canvas></div>
+</div>
+<div class="card"><h3>利润率走势：毛利率 / 营业 / 净利率</h3>
+<div class="chart-wrap"><canvas id="marginChart"></canvas></div>
+</div>
+</div>
+<div class="grid cols-2" style="margin-top:14px;">
+<div class="card"><h3>储备收入 vs 其他收入（年度拆分，堆叠柱）</h3>
+<div class="chart-wrap"><canvas id="revSplitChart"></canvas></div>
+</div>
+<div class="card"><h3>分销费用 vs 总收入（占比缩窄是关键）</h3>
+<div class="chart-wrap"><canvas id="distChart"></canvas></div>
+</div>
+</div>
+<!-- ▍D. 年度财务全景表 -->
+<h2 class="section-title">📋 D. 年度财务全景表</h2>
+<div class="card">
+<table>
+<thead><tr>
+<th>指标 (USD M)</th><th>2022A</th><th>2023A</th><th>2024A</th><th>2025A</th>
+<th>2026E Wall St</th><th>2026E 国投</th><th>2027E 国投</th>
+</tr></thead>
+<tbody>
+<tr><td>总收入</td><td>772</td><td>1,450</td><td>1,676</td><td>2,746</td><td>3,286</td><td>3,276</td><td>4,387</td></tr>
+<tr><td>同比增速</td><td>—</td><td class="pos">+87.9%</td><td class="pos">+15.6%</td><td class="pos">+63.9%</td><td class="pos">+19.7%</td><td class="pos">+19.3%</td><td class="pos">+33.9%</td></tr>
+<tr><td>储备收入</td><td>736</td><td>1,431</td><td>1,661</td><td>~2,650</td><td>—</td><td>3,071</td><td>4,080</td></tr>
+<tr><td>其他收入</td><td>36</td><td>20</td><td>15</td><td>~97</td><td>—</td><td>204</td><td>307</td></tr>
+<tr><td>分销/交易费</td><td>287</td><td>720</td><td>1,011</td><td>~1,650</td><td>—</td><td>1,992</td><td>2,575</td></tr>
+<tr><td>调整后 EBITDA</td><td>—</td><td>—</td><td>~280</td><td>~500</td><td>—</td><td>~520</td><td>~780</td></tr>
+<tr><td>归母净利润</td><td class="neg">-769</td><td class="pos">268</td><td class="pos">156</td><td class="neg">-70</td><td class="pos">274</td><td class="pos">385</td><td class="pos">603</td></tr>
+<tr><td>净利率</td><td class="neg">-99.6%</td><td class="pos">18.4%</td><td class="pos">9.3%</td><td class="neg">-2.5%</td><td class="pos">8.3%</td><td class="pos">11.8%</td><td class="pos">13.7%</td></tr>
+<tr><td>摊薄 EPS ($)</td><td>-16.33</td><td>4.02</td><td>2.15</td><td>~-0.30</td><td>1.04</td><td>1.51</td><td>2.29</td></tr>
+</tbody>
+</table>
+<div class="note">2025A 实际季度：Q1 $589M / Q2 $660M / Q3 $740M / Q4 $770M；全年净亏 -$70M 主要源于 IPO 触发的 $424M 一次性股权激励。</div>
+</div>
+<!-- ▍E. 最近 5 季度详细对比 -->
+<h2 class="section-title">📅 E. 最近 5 季度详细对比</h2>
+<div class="card">
+<table>
+<thead><tr>
+<th>季度指标</th><th>Q1 2025</th><th>Q2 2025</th><th>Q3 2025</th><th>Q4 2025</th><th>Q1 2026</th>
+</tr></thead>
+<tbody>
+<tr><td>总收入 ($M)</td><td>589</td><td>660</td><td>740</td><td>770</td><td>694</td></tr>
+<tr><td>YoY 增速</td><td class="pos">+58%</td><td class="pos">+62%</td><td class="pos">+66%</td><td class="pos">+77%</td><td class="pos">+20%</td></tr>
+<tr><td>QoQ 增速</td><td>—</td><td class="pos">+12%</td><td class="pos">+12%</td><td class="pos">+4%</td><td class="neg">-10%</td></tr>
+<tr><td>USDC 期末流通 ($B)</td><td>56</td><td>61</td><td>73.7</td><td>75.3</td><td>77.0</td></tr>
+<tr><td>USDC YoY</td><td class="pos">+91%</td><td class="pos">+90%</td><td class="pos">+108%</td><td class="pos">+72%</td><td class="pos">+28%</td></tr>
+<tr><td>链上交易量 ($T)</td><td>~5</td><td>~7</td><td>~9</td><td>11.9</td><td>21.5</td></tr>
+<tr><td>归母净利润 ($M)</td><td class="pos">65</td><td class="pos">19</td><td class="pos">214</td><td class="pos">133</td><td class="pos">55</td></tr>
+<tr><td>调整 EBITDA ($M)</td><td>~120</td><td>~130</td><td>166</td><td>167</td><td>151</td></tr>
+<tr><td>EPS ($)</td><td>0.32</td><td>0.10</td><td>0.85</td><td>0.52</td><td>0.21</td></tr>
+</tbody>
+</table>
+<div class="note">Q1 2026 收入 QoQ -10% 主要因 Q4 2025 高基数（季节性 + 高利率尾声）。USDC 流通量仍持续扩张，但 YoY 增速因基数走低（2025/02 USDC 单月曾 +21% 爆发）。</div>
+</div>
+<!-- ▍F. 储备结构 -->
+<h2 class="section-title">🏦 F. USDC 储备资产结构（2025-11-28 官方披露）</h2>
+<div class="grid cols-2">
+<div class="card"><h3>资产类别明细</h3>
+<table>
+<thead><tr><th>资产类别</th><th>规模</th><th>占比</th></tr></thead>
+<tbody>
+<tr><td>美债隔夜逆回购</td><td>$40.6B</td><td>53.1%</td></tr>
+<tr><td>3M 以内美国短债</td><td>$24.5B</td><td>32.0%</td></tr>
+<tr><td>受监管银行现金</td><td>$10.4B</td><td>13.6%</td></tr>
+<tr><td>Circle 储蓄基金现金</td><td>$1.0B</td><td>1.3%</td></tr>
+<tr><td>出入金处置差额</td><td>-$0.08B</td><td>-0.1%</td></tr>
+<tr style="background:var(--panel-2);"><td><strong>合计</strong></td><td><strong>$76.5B</strong></td><td><strong>100%</strong></td></tr>
+</tbody>
+</table>
+</div>
+<div class="card"><h3>占比可视化</h3>
+<div class="chart-wrap"><canvas id="reserveChart"></canvas></div>
+</div>
+</div>
+<div class="card" style="margin-top:14px;">
+<p style="font-size:13px; line-height:1.75; margin:0;">
       ~85% 储备投向 <strong>Circle Reserve Fund</strong>（Rule 2a-7 政府货币市场基金），由 <strong>BlackRock</strong> 管理、<strong>BNY Mellon</strong> 托管，每周三披露 ISIN/CUSIP 级别持仓。结构优先级：<strong>流动性 &gt; 资本保值 &gt; 透明度 &gt; 收益</strong>。
     </p>
-  </div>
-
-  <!-- ▍G. 渠道分销 -->
-  <h2 class="section-title">📡 G. 渠道分销结构（Coinbase / Binance）</h2>
-  <div class="grid cols-2">
-    <div class="card"><h3>USDC 在交易所流通量演进（十亿）</h3>
-      <div class="chart-wrap"><canvas id="channelChart"></canvas></div>
-    </div>
-    <div class="card"><h3>关键经济条款（10-K 披露）</h3>
-      <ul class="news">
-        <li><span class="date">Coinbase</span> 平台上 USDC 储备利息 <strong>100% 归 Coinbase</strong></li>
-        <li><span class="date">其他渠道</span> Binance / 自有钱包 / CCTP 等 <strong>50/50 分账</strong></li>
-        <li><span class="date">2024</span> Circle 向 Coinbase 支付 <strong>$908M</strong>（占总分销成本 90%）</li>
-        <li><span class="date">含义</span> 每 $1 收入 Coinbase 拿走 ~<strong>$0.54</strong></li>
-        <li><span class="date">趋势</span> Binance 渠道增速更快（4%→14%），长期利好净利率</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- ▍H. 业务模型 -->
-  <h2 class="section-title">💡 H. 业务模型与盈利公式</h2>
-  <div class="card">
-    <p style="font-size:14px; line-height:1.8; margin:0 0 12px;">
-      Circle 是 <strong>USDC 的发行方</strong>，~99% 收入来自 USDC 储备金的利息收益。简化盈利公式：<br>
-      <strong style="color:var(--accent-2); font-size:15px;">净利润 ≈ (USDC 储备 × 短期美债利率) − Coinbase/Binance 分成 − 运营成本 + 其他收入</strong>
-    </p>
-    <div class="pill-row">
-      <span class="pill">💵 储备收入 &gt;97%</span>
-      <span class="pill">🏦 87% 在 Circle Reserve Fund</span>
-      <span class="pill">⛓️ 30+ 公链发行</span>
-      <span class="pill">🤝 Coinbase 50/50 + 100% on-platform</span>
-      <span class="pill">🆕 其他：CCTP / Hashnote / Circle Mint / Arc 协议费</span>
-    </div>
-  </div>
+</div>
+<!-- ▍G. 渠道分销 -->
+<h2 class="section-title">📡 G. 渠道分销结构（Coinbase / Binance）</h2>
+<div class="grid cols-2">
+<div class="card"><h3>USDC 在交易所流通量演进（十亿）</h3>
+<div class="chart-wrap"><canvas id="channelChart"></canvas></div>
+</div>
+<div class="card"><h3>关键经济条款（10-K 披露）</h3>
+<ul class="news">
+<li><span class="date">Coinbase</span> 平台上 USDC 储备利息 <strong>100% 归 Coinbase</strong></li>
+<li><span class="date">其他渠道</span> Binance / 自有钱包 / CCTP 等 <strong>50/50 分账</strong></li>
+<li><span class="date">2024</span> Circle 向 Coinbase 支付 <strong>$908M</strong>（占总分销成本 90%）</li>
+<li><span class="date">含义</span> 每 $1 收入 Coinbase 拿走 ~<strong>$0.54</strong></li>
+<li><span class="date">趋势</span> Binance 渠道增速更快（4%→14%），长期利好净利率</li>
+</ul>
+</div>
+</div>
+<!-- ▍H. 业务模型 -->
+<h2 class="section-title">💡 H. 业务模型与盈利公式</h2>
+<div class="card">
+<p style="font-size:14px; line-height:1.8; margin:0 0 12px;">
+      Circle 是 <strong>USDC 的发行方</strong>，~99% 收入来自 USDC 储备金的利息收益。简化盈利公式：<br/>
+<strong style="color:var(--accent-2); font-size:15px;">净利润 ≈ (USDC 储备 × 短期美债利率) − Coinbase/Binance 分成 − 运营成本 + 其他收入</strong>
+</p>
+<div class="pill-row">
+<span class="pill">💵 储备收入 &gt;97%</span>
+<span class="pill">🏦 87% 在 Circle Reserve Fund</span>
+<span class="pill">⛓️ 30+ 公链发行</span>
+<span class="pill">🤝 Coinbase 50/50 + 100% on-platform</span>
+<span class="pill">🆕 其他：CCTP / Hashnote / Circle Mint / Arc 协议费</span>
+</div>
+</div>
 </section>
-
 <!-- ============ 2. 公司动态 ============ -->
 <section class="panel" id="dynamics">
-
-  <div class="grid cols-4">
-    <div class="card"><h3>Q1 2026 总收入</h3>
-      <div class="kpi">$694 M <span class="delta-up" style="font-size:14px">+20%</span></div>
-      <div class="kpi-sub">vs 预期 $715M · <span class="neg">略低于</span></div>
-    </div>
-    <div class="card"><h3>净利润 (持续)</h3>
-      <div class="kpi">$55 M <span class="delta-down" style="font-size:14px">-15%</span></div>
-      <div class="kpi-sub">OpEx +76% · IPO SBC 拖累</div>
-    </div>
-    <div class="card"><h3>调整后 EBITDA</h3>
-      <div class="kpi">$151 M</div>
-      <div class="kpi-sub">+24% YoY · 利润率 53%</div>
-    </div>
-    <div class="card"><h3>EPS</h3>
-      <div class="kpi">$0.21 <span class="delta-up" style="font-size:14px">Beat</span></div>
-      <div class="kpi-sub">vs 预期 $0.17</div>
-    </div>
-  </div>
-
-  <details class="expand" open style="margin-top:14px;">
-    <summary>📅 完整事件时间线（IPO 至今）</summary>
-    <div class="body">
-      <div class="timeline">
-        <div class="event"><div class="when">2026-05-28</div>Circle × Nium 公布 stablecoin settlement 全球支付合作 · 股价 +5.46% 回升至 $108.24</div>
-        <div class="event"><div class="when">2026-05-26</div>KeyBanc 启动覆盖（Sector Weight）· 股价 -7.91% 回踩 SMA20</div>
-        <div class="event"><div class="when">2026-05-20</div>Morgan Stanley 大幅上调目标价 $80 → $106 · 立场转中性偏多 <span class="badge good">评级转向</span></div>
-        <div class="event"><div class="when">2026-05-11</div>Q1 2026 财报：收入 $694M (+20%)、Adj EBITDA $151M、链上量 $21.5T (+263%) <a class="source-link" href="https://www.circle.com/pressroom/circle-reports-first-quarter-2026-results" target="_blank">↗ 官方</a></div>
-        <div class="event"><div class="when">2026-05-11</div>Arc Presale 完成 <strong>$222M 融资</strong>（FDV $3B）：a16z 领投 $75M + BlackRock / Apollo / ICE / Standard Chartered Ventures / SBI / ARK / General Catalyst / Marshall Wace / Bullish / IDG / Haun <span class="badge good">关键催化</span></div>
-        <div class="event"><div class="when">2026-05-05</div>Wells Fargo 上调目标价至 $142（潜在涨幅 +25%）<span class="badge good">评级上调</span></div>
-        <div class="event"><div class="when">2026-04</div>Circle 确认 Arc 主网将<strong>量子抗性</strong>设计，引入 post-quantum signature scheme</div>
-        <div class="event"><div class="when">2026-03-26</div>市场因稳定币监管担忧单日下跌 20%<span class="badge bad">风险事件</span></div>
-        <div class="event"><div class="when">2026-03-09</div>10-K 年报发布（FY2025）：年收入 $2.7B (+64%)、净亏 -$70M、stablecoin holder deposits $74.9B <a class="source-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001876042" target="_blank">↗ SEC</a></div>
-        <div class="event"><div class="when">2026-02-25</div>Q4 2025 财报：收入 $770M (+77%)、净利 $133M、Adj EBITDA $167M (+412%)、USDC $75.3B</div>
-        <div class="event"><div class="when">2026-01</div>Tether 推出 USAT（Anchorage Digital Bank 发行）→ GENIUS Act 合规版进入美国机构市场 <span class="badge bad">竞争加剧</span></div>
-        <div class="event"><div class="when">2025-Q4</div>GENIUS Act 签署成法 · 联邦稳定币监管框架确立 <span class="badge good">行业利好</span></div>
-        <div class="event"><div class="when">2025-10</div>Arc Testnet 上线，<strong>100+ 机构</strong>参与测试，含 Goldman Sachs / Deutsche Bank / Visa / Mastercard / AWS / Anthropic</div>
-        <div class="event"><div class="when">2025-11</div>Q3 2025 财报：收入 $740M (+66%)、净利 $214M、USDC $73.7B (+108%)</div>
-        <div class="event"><div class="when">2025-08</div>收购 Hashnote（机构货币市场基金平台），扩展非储备收入</div>
-        <div class="event"><div class="when">2025-06</div>IPO @ $31，首日大涨；触发 $424M 员工股权激励一次性确认</div>
-      </div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🚀 Arc 区块链深度解读</summary>
-    <div class="body">
-      <p style="font-size:13px; line-height:1.75;">
-        <strong>Arc</strong> 是 Circle 自研的<strong>机构级 L1 公链</strong>，定位"经济操作系统"（Economic Operating System），对标 Solana / Avalanche 的机构链路线。设计理念聚焦三点：<strong>快速最终性</strong>、<strong>可配置隐私</strong>、<strong>已知验证者</strong>，匹配机构合规要求。
+<div class="grid cols-4">
+<div class="card"><h3>Q1 2026 总收入</h3>
+<div class="kpi">$694 M <span class="delta-up" style="font-size:14px">+20%</span></div>
+<div class="kpi-sub">vs 预期 $715M · <span class="neg">略低于</span></div>
+</div>
+<div class="card"><h3>净利润 (持续)</h3>
+<div class="kpi">$55 M <span class="delta-down" style="font-size:14px">-15%</span></div>
+<div class="kpi-sub">OpEx +76% · IPO SBC 拖累</div>
+</div>
+<div class="card"><h3>调整后 EBITDA</h3>
+<div class="kpi">$151 M</div>
+<div class="kpi-sub">+24% YoY · 利润率 53%</div>
+</div>
+<div class="card"><h3>EPS</h3>
+<div class="kpi">$0.21 <span class="delta-up" style="font-size:14px">Beat</span></div>
+<div class="kpi-sub">vs 预期 $0.17</div>
+</div>
+</div>
+<details class="expand" open="" style="margin-top:14px;">
+<summary>📅 完整事件时间线（IPO 至今）</summary>
+<div class="body">
+<div class="timeline">
+<div class="event"><div class="when">2026-05-28</div>Circle × Nium 公布 stablecoin settlement 全球支付合作 · 股价 +5.46% 回升至 $108.24</div>
+<div class="event"><div class="when">2026-05-26</div>KeyBanc 启动覆盖（Sector Weight）· 股价 -7.91% 回踩 SMA20</div>
+<div class="event"><div class="when">2026-05-20</div>Morgan Stanley 大幅上调目标价 $80 → $106 · 立场转中性偏多 <span class="badge good">评级转向</span></div>
+<div class="event"><div class="when">2026-05-11</div>Q1 2026 财报：收入 $694M (+20%)、Adj EBITDA $151M、链上量 $21.5T (+263%) <a class="source-link" href="https://www.circle.com/pressroom/circle-reports-first-quarter-2026-results" target="_blank">↗ 官方</a></div>
+<div class="event"><div class="when">2026-05-11</div>Arc Presale 完成 <strong>$222M 融资</strong>（FDV $3B）：a16z 领投 $75M + BlackRock / Apollo / ICE / Standard Chartered Ventures / SBI / ARK / General Catalyst / Marshall Wace / Bullish / IDG / Haun <span class="badge good">关键催化</span></div>
+<div class="event"><div class="when">2026-05-05</div>Wells Fargo 上调目标价至 $142（潜在涨幅 +25%）<span class="badge good">评级上调</span></div>
+<div class="event"><div class="when">2026-04</div>Circle 确认 Arc 主网将<strong>量子抗性</strong>设计，引入 post-quantum signature scheme</div>
+<div class="event"><div class="when">2026-03-26</div>市场因稳定币监管担忧单日下跌 20%<span class="badge bad">风险事件</span></div>
+<div class="event"><div class="when">2026-03-09</div>10-K 年报发布（FY2025）：年收入 $2.7B (+64%)、净亏 -$70M、stablecoin holder deposits $74.9B <a class="source-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001876042" target="_blank">↗ SEC</a></div>
+<div class="event"><div class="when">2026-02-25</div>Q4 2025 财报：收入 $770M (+77%)、净利 $133M、Adj EBITDA $167M (+412%)、USDC $75.3B</div>
+<div class="event"><div class="when">2026-01</div>Tether 推出 USAT（Anchorage Digital Bank 发行）→ GENIUS Act 合规版进入美国机构市场 <span class="badge bad">竞争加剧</span></div>
+<div class="event"><div class="when">2025-Q4</div>GENIUS Act 签署成法 · 联邦稳定币监管框架确立 <span class="badge good">行业利好</span></div>
+<div class="event"><div class="when">2025-10</div>Arc Testnet 上线，<strong>100+ 机构</strong>参与测试，含 Goldman Sachs / Deutsche Bank / Visa / Mastercard / AWS / Anthropic</div>
+<div class="event"><div class="when">2025-11</div>Q3 2025 财报：收入 $740M (+66%)、净利 $214M、USDC $73.7B (+108%)</div>
+<div class="event"><div class="when">2025-08</div>收购 Hashnote（机构货币市场基金平台），扩展非储备收入</div>
+<div class="event"><div class="when">2025-06</div>IPO @ $31，首日大涨；触发 $424M 员工股权激励一次性确认</div>
+</div>
+</div>
+</details>
+<details class="expand">
+<summary>🚀 Arc 区块链深度解读</summary>
+<div class="body">
+<p style="font-size:13px; line-height:1.75;">
+<strong>Arc</strong> 是 Circle 自研的<strong>机构级 L1 公链</strong>，定位"经济操作系统"（Economic Operating System），对标 Solana / Avalanche 的机构链路线。设计理念聚焦三点：<strong>快速最终性</strong>、<strong>可配置隐私</strong>、<strong>已知验证者</strong>，匹配机构合规要求。
       </p>
-      <table style="margin-top:10px;">
-        <thead><tr><th>关键指标</th><th>数据 / 状态</th></tr></thead>
-        <tbody>
-          <tr><td>融资估值（FDV）</td><td>$3.0B</td></tr>
-          <tr><td>Presale 金额</td><td>$222M</td></tr>
-          <tr><td>领投</td><td>a16z crypto ($75M)</td></tr>
-          <tr><td>关键参与方</td><td>BlackRock、Apollo、ICE/NYSE、Standard Chartered、SBI、ARK、General Catalyst</td></tr>
-          <tr><td>Testnet</td><td>2025-10 上线，100+ 机构测试</td></tr>
-          <tr><td>Mainnet</td><td>2026 夏季（计划）</td></tr>
-          <tr><td>RWA 能力</td><td>tokenized assets 即时清算 + 可选合规隐私</td></tr>
-          <tr><td>量子抗性</td><td>2026-04 确认 post-quantum signature scheme</td></tr>
-        </tbody>
-      </table>
-      <p style="font-size:13px; line-height:1.7; margin-top:12px;">
-        <strong>战略意义</strong>：将 Circle 估值锚从"<strong>纯储备息差（受利率扰动）</strong>"扩展到"<strong>协议收入 + 机构清算费</strong>"。Bernstein 把 Arc 视作 Circle 第二增长曲线，并据此把目标价上调至 $190。若主网兑现 + 机构 TVL 起量，CRCL 有望摆脱传统货币基金估值锚向"<strong>Web3 基础设施</strong>"估值锚切换。
+<table style="margin-top:10px;">
+<thead><tr><th>关键指标</th><th>数据 / 状态</th></tr></thead>
+<tbody>
+<tr><td>融资估值（FDV）</td><td>$3.0B</td></tr>
+<tr><td>Presale 金额</td><td>$222M</td></tr>
+<tr><td>领投</td><td>a16z crypto ($75M)</td></tr>
+<tr><td>关键参与方</td><td>BlackRock、Apollo、ICE/NYSE、Standard Chartered、SBI、ARK、General Catalyst</td></tr>
+<tr><td>Testnet</td><td>2025-10 上线，100+ 机构测试</td></tr>
+<tr><td>Mainnet</td><td>2026 夏季（计划）</td></tr>
+<tr><td>RWA 能力</td><td>tokenized assets 即时清算 + 可选合规隐私</td></tr>
+<tr><td>量子抗性</td><td>2026-04 确认 post-quantum signature scheme</td></tr>
+</tbody>
+</table>
+<p style="font-size:13px; line-height:1.7; margin-top:12px;">
+<strong>战略意义</strong>：将 Circle 估值锚从"<strong>纯储备息差（受利率扰动）</strong>"扩展到"<strong>协议收入 + 机构清算费</strong>"。Bernstein 把 Arc 视作 Circle 第二增长曲线，并据此把目标价上调至 $190。若主网兑现 + 机构 TVL 起量，CRCL 有望摆脱传统货币基金估值锚向"<strong>Web3 基础设施</strong>"估值锚切换。
       </p>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>📈 Q1 2026 运营亮点详细拆解</summary>
-    <div class="body">
-      <ul class="news">
-        <li><span class="date">USDC 流通</span> 期末 $77B，同比 +28%；月度净流入仍在 $1.5B+ 水平 <a class="source-link" href="https://defillama.com/stablecoin/usd-coin" target="_blank">↗ DefiLlama 实时</a></li>
-        <li><span class="date">链上交易量</span> $21.5 万亿（+263% YoY）— 反映 USDC 在 <strong>支付、跨境结算、机构清算</strong> 场景渗透爆发</li>
-        <li><span class="date">市占</span> Visa Onchain Analytics：USDC 占稳定币交易额 <strong>63%</strong>，链上美元数字货币 ~<strong>80%</strong>（区别于"流通量市占" 24%）</li>
-        <li><span class="date">合规</span> 储备审计：Deloitte；月度披露 + 周度持仓更新 <span class="badge good">合规壁垒</span></li>
-        <li><span class="date">运营成本</span> OpEx +76% YoY：IPO 相关股权激励 + Arc 投入 + 拓展销售团队 <span class="badge warn">短期承压</span></li>
-        <li><span class="date">业绩 miss</span> 收入 $694M vs 预期 $715M（-2.9%）— 关注下季度是否纠偏</li>
-      </ul>
-    </div>
-  </details>
+</div>
+</details>
+<details class="expand">
+<summary>📈 Q1 2026 运营亮点详细拆解</summary>
+<div class="body">
+<ul class="news">
+<li><span class="date">USDC 流通</span> 期末 $77B，同比 +28%；月度净流入仍在 $1.5B+ 水平 <a class="source-link" href="https://defillama.com/stablecoin/usd-coin" target="_blank">↗ DefiLlama 实时</a></li>
+<li><span class="date">链上交易量</span> $21.5 万亿（+263% YoY）— 反映 USDC 在 <strong>支付、跨境结算、机构清算</strong> 场景渗透爆发</li>
+<li><span class="date">市占</span> Visa Onchain Analytics：USDC 占稳定币交易额 <strong>63%</strong>，链上美元数字货币 ~<strong>80%</strong>（区别于"流通量市占" 24%）</li>
+<li><span class="date">合规</span> 储备审计：Deloitte；月度披露 + 周度持仓更新 <span class="badge good">合规壁垒</span></li>
+<li><span class="date">运营成本</span> OpEx +76% YoY：IPO 相关股权激励 + Arc 投入 + 拓展销售团队 <span class="badge warn">短期承压</span></li>
+<li><span class="date">业绩 miss</span> 收入 $694M vs 预期 $715M（-2.9%）— 关注下季度是否纠偏</li>
+</ul>
+</div>
+</details>
 </section>
-
 <!-- ============ 3. 市场环境 ============ -->
 <section class="panel" id="market">
-
-  <div class="grid cols-4">
-    <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-      <div class="kpi" id="totalStableLive2">$323 B</div>
-      <div class="kpi-sub">过去 12 月 +47%</div>
-    </div>
-    <div class="card"><h3>USDT 流通 <span class="live">LIVE</span></h3>
-      <div class="kpi" id="usdtLive">$190 B</div>
-      <div class="kpi-sub">市占 ~58.8% · 仍领先</div>
-    </div>
-    <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-      <div class="kpi" id="usdcLive2">$77 B</div>
-      <div class="kpi-sub">市占 ~24% · GENIUS Act 受益</div>
-    </div>
-    <div class="card"><h3>3M 美债收益率</h3>
-      <div class="kpi">~4.0%</div>
-      <div class="kpi-sub">25Q4 平均 3.91% · 储备收益锚</div>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:14px;">
-    <h3>USDC vs USDT 月度流通量历史（十亿美元）— 43 个月深度</h3>
-    <div class="chart-wrap tall"><canvas id="stableHistory"></canvas></div>
-    <div class="note">2023 年硅谷银行事件 USDC 一度跌至 $24B，2024 Q4 开始反弹，2025 年 GENIUS Act 通过后单月最高 +21% 增长。Q1 2026 末已恢复至 $77B。</div>
-  </div>
-
-  <div class="grid cols-2" style="margin-top:14px;">
-    <div class="card"><h3>稳定币市场份额（May 2026）</h3>
-      <div class="chart-wrap"><canvas id="shareChart"></canvas></div>
-    </div>
-    <div class="card"><h3>美联储利率 & Circle 储备利率（季度均值）</h3>
-      <div class="chart-wrap"><canvas id="rateChart"></canvas></div>
-    </div>
-  </div>
-
-  <details class="expand" open style="margin-top:14px;">
-    <summary>🏛️ 监管环境：GENIUS Act & CLARITY Act 影响</summary>
-    <div class="body">
-      <div class="scorecard">
-        <div class="bull">
-          <h4 class="pos">✅ GENIUS Act（利好 Circle，已生效）</h4>
-          <ul class="news">
-            <li>2025 Q4 签署成法，确立联邦稳定币监管框架</li>
-            <li>要求 100% 储备 + 月度披露 + 受监管发行方</li>
-            <li>Circle 现行实践完全契合 → 合规壁垒</li>
-            <li>禁止算法稳定币、非合规离岸发行方对美零售</li>
-            <li><strong>2026/03 CLARITY 妥协版本</strong>促使 CRCL 单日 +20%</li>
-          </ul>
-        </div>
-        <div class="bear">
-          <h4 class="neg">⚠️ CLARITY Act（仍在国会，影响未定）</h4>
-          <ul class="news">
-            <li>原版提案禁止 CEX 平台对稳定币付息</li>
-            <li>若严苛通过：直接打击 Circle Earn + 影响 USDC on Coinbase 经济</li>
-            <li>2026/03 出现妥协版本，市场对结果存乐观预期</li>
-            <li>需密切跟踪国会动向与具体条款</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>⚔️ 竞争格局详细对比</summary>
-    <div class="body">
-      <table>
-        <thead><tr><th>稳定币</th><th>发行方</th><th>市值</th><th>市占</th><th>定位 / 关键差异</th></tr></thead>
-        <tbody>
-          <tr><td>USDT</td><td>Tether</td><td>$190B</td><td>58.8%</td><td>新兴市场 / 全球流动性主导 · 储备透明度较低</td></tr>
-          <tr><td><strong>USDC</strong></td><td><strong>Circle</strong></td><td><strong>$77B</strong></td><td><strong>24.0%</strong></td><td><strong>机构 / 合规标准 · 全透明储备</strong></td></tr>
-          <tr><td>USAT (新)</td><td>Tether × Anchorage</td><td>—</td><td>—</td><td>Tether 的 GENIUS 合规版，2026/01 推出，直击 USDC 机构份额 ⚠️</td></tr>
-          <tr><td>USDe</td><td>Ethena</td><td>~$10B</td><td>~3%</td><td>合成型，Delta 中性，DeFi 原生</td></tr>
-          <tr><td>PYUSD</td><td>PayPal × Paxos</td><td>~$1B</td><td><1%</td><td>支付场景，B2C</td></tr>
-          <tr><td>FDUSD</td><td>First Digital</td><td>~$2B</td><td>~1%</td><td>Binance 推广</td></tr>
-          <tr><td>RLUSD</td><td>Ripple</td><td>~$1B</td><td><1%</td><td>跨境支付，XRPL 优化</td></tr>
-          <tr><td>银行系（多个）</td><td>JPM / BNY / Citi 等</td><td>—</td><td>—</td><td>陆续推出，对私户与机构双向冲击</td></tr>
-        </tbody>
-      </table>
-      <div class="note">非美元稳定币目前合计 <0.5% 市占。最关键的中长期博弈：<strong>USAT vs USDC 在美国机构市场的份额争夺</strong>。</div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>📊 利率敏感性官方测算（基于 2025/6 数据）</summary>
-    <div class="body">
-      <table>
-        <thead><tr><th>利率变动</th><th>对储备收入年化影响 ($M)</th><th>对分销费年化影响 ($M)</th><th>净影响 ($M)</th></tr></thead>
-        <tbody>
-          <tr><td class="pos">+200bp</td><td class="pos">+1,235</td><td class="pos">+631</td><td class="pos">+604</td></tr>
-          <tr><td class="pos">+100bp</td><td class="pos">+618</td><td class="pos">+315</td><td class="pos">+303</td></tr>
-          <tr><td class="neg">-100bp</td><td class="neg">-618</td><td class="neg">-315</td><td class="neg">-303</td></tr>
-          <tr><td class="neg">-200bp</td><td class="neg">-1,235</td><td class="neg">-631</td><td class="neg">-604</td></tr>
-        </tbody>
-      </table>
-      <div class="note">官方招股披露口径。<strong>降息 100bp ≈ 净利润年化减少 $300M</strong>（按 2025/6 流通量 ~$61B 计算）。当前流通量已达 $77B，敏感性放大约 1.25 倍。<br>结论：<strong>Circle 是降息周期相对受损方</strong>，但流通量扩张可部分对冲。每 +$10B 流通量 ≈ +$400M 年化储备收入（@ 4% 利率）。</div>
-    </div>
-  </details>
-
-  <!-- ▍加密市场环境 -->
-  <h2 class="section-title">₿ 加密市场环境（与 Circle 周期高度相关）</h2>
-
-  <div class="grid cols-4">
-    <div class="card"><h3>BTC 现价</h3>
-      <div class="kpi">~$64.3K</div>
-      <div class="kpi-sub">距 ATH $126K <span class="neg">-42%</span> · 2025/10/06</div>
-    </div>
-    <div class="card"><h3>BTC 市值</h3>
-      <div class="kpi">$1.47 T</div>
-      <div class="kpi-sub">流通 20.04M (95% of max)</div>
-    </div>
-    <div class="card"><h3>2025 稳定币转账总量</h3>
-      <div class="kpi">$33 T</div>
-      <div class="kpi-sub"><span class="delta-up">+72% YoY</span> · USDC 首次反超 USDT</div>
-    </div>
-    <div class="card"><h3>2025 CEX 现货交易额</h3>
-      <div class="kpi">$18.6 T</div>
-      <div class="kpi-sub"><span class="delta-up">+9% YoY</span> · Top 12 处理 $21T</div>
-    </div>
-  </div>
-
-  <div class="grid cols-2" style="margin-top:14px;">
-    <div class="card">
-      <h3>📈 BTC 月度收盘价（2024 至今，USD）</h3>
-      <div class="chart-wrap"><canvas id="btcChart"></canvas></div>
-      <div class="note">2025/10 ATH $126K → 2026/02 低点 $60K（-52%）→ 当前 $73K 反弹。Circle 储备规模与 BTC 周期高度相关，加密牛市 = 链上活动放大 = USDC 流通扩张。</div>
-    </div>
-    <div class="card">
-      <h3>⚖️ USDC vs USDT 链上转账量对比（月度，万亿美元）<span class="badge good" style="margin-left:8px;">USDC 反超</span></h3>
-      <div class="chart-wrap"><canvas id="stableVolChart"></canvas></div>
-      <div class="note">2025 全年 USDC $18.3T vs USDT $13.3T，<strong>USDC 首次反超</strong>。2026/02 单月 USDC $1.26T vs USDT $514B（USDC 70% 份额）。<br>真实使用 vs 流通量市占的<strong>巨大背离</strong>是 Circle 估值核心论据。</div>
-    </div>
-  </div>
-
-  <div class="grid cols-2" style="margin-top:14px;">
-    <div class="card">
-      <h3>🏛️ Top CEX 月度现货交易额（十亿美元）</h3>
-      <div class="chart-wrap"><canvas id="cexVolChart"></canvas></div>
-      <div class="note">2026 早期 Top 10 月均 ~$1.4T（vs 2025 末峰值下滑 -15%）。Binance ~40% 现货市占率，Coinbase 美国第一。<br>市场总市值收缩 → USDC 储备规模可能<strong>下行压力</strong>。</div>
-    </div>
-    <div class="card">
-      <h3>📊 USDC 真实使用 vs 流通市占（关键背离）</h3>
-      <div class="chart-wrap"><canvas id="usdcShareChart"></canvas></div>
-      <div class="note">USDC <strong>市值市占</strong> 24% vs <strong>转账量市占</strong> 55% vs <strong>x402 agentic 支付</strong> 99%+。<br>真实使用层面 USDC 已经是绝对主导，估值有空间从"市值锚"切换到"使用量锚"。</div>
-    </div>
-  </div>
-
-  <details class="expand" style="margin-top:14px;" open>
-    <summary>📖 关键洞察：Circle 与加密市场周期关联性</summary>
-    <div class="body">
-      <ul class="news">
-        <li><span class="date">规模驱动</span> USDC 储备规模主要受 <strong>BTC/加密市场周期</strong>影响：牛市 → DeFi 活跃 → stablecoin 铸造增加 → Circle 储备收入扩张</li>
-        <li><span class="date">2025-10 高点</span> BTC 触及 $126K 同期 USDC 流通也冲至 $76B（高度同步）</li>
-        <li><span class="date">2026-02 低谷</span> BTC 跌至 $60K（-52% from ATH）同期 CRCL 股价跌至 52w 低 $49.9，加密市场整体 -45%</li>
-        <li><span class="date">反周期信号</span> 尽管加密市场 -45%，<strong>USDC 流通量仍 +28% YoY</strong>（管理层在 Q1 26 电话会议反复强调）— 暗示 USDC 已部分脱钩 BTC 周期，向支付/结算切换</li>
-        <li><span class="date">USDC 反超 USDT</span> 2025 年全年转账量 $18.3T vs $13.3T；Solana DeFi 标准化是关键推手</li>
-        <li><span class="date">利率 vs 周期</span> 加密牛市 + 高利率 = Circle 双击；加密熊市 + 降息 = Circle 双杀。当前进入<strong>双重不利</strong>窗口（市场震荡 + 降息预期）</li>
-      </ul>
-    </div>
-  </details>
-
+<div class="grid cols-4">
+<div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
+<div class="kpi" id="totalStableLive2">$317 B</div>
+<div class="kpi-sub">过去 12 月 +47%</div>
+</div>
+<div class="card"><h3>USDT 流通 <span class="live">LIVE</span></h3>
+<div class="kpi" id="usdtLive">$187 B</div>
+<div class="kpi-sub">市占 ~58.8% · 仍领先</div>
+</div>
+<div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
+<div class="kpi" id="usdcLive2">$76.1 B</div>
+<div class="kpi-sub">市占 ~24% · GENIUS Act 受益</div>
+</div>
+<div class="card"><h3>3M 美债收益率</h3>
+<div class="kpi">~4.0%</div>
+<div class="kpi-sub">25Q4 平均 3.91% · 储备收益锚</div>
+</div>
+</div>
+<div class="card" style="margin-top:14px;">
+<h3>USDC vs USDT 月度流通量历史（十亿美元）— 43 个月深度</h3>
+<div class="chart-wrap tall"><canvas id="stableHistory"></canvas></div>
+<div class="note">2023 年硅谷银行事件 USDC 一度跌至 $24B，2024 Q4 开始反弹，2025 年 GENIUS Act 通过后单月最高 +21% 增长。Q1 2026 末已恢复至 $77B。</div>
+</div>
+<div class="grid cols-2" style="margin-top:14px;">
+<div class="card"><h3>稳定币市场份额（May 2026）</h3>
+<div class="chart-wrap"><canvas id="shareChart"></canvas></div>
+</div>
+<div class="card"><h3>美联储利率 &amp; Circle 储备利率（季度均值）</h3>
+<div class="chart-wrap"><canvas id="rateChart"></canvas></div>
+</div>
+</div>
+<details class="expand" open="" style="margin-top:14px;">
+<summary>🏛️ 监管环境：GENIUS Act &amp; CLARITY Act 影响</summary>
+<div class="body">
+<div class="scorecard">
+<div class="bull">
+<h4 class="pos">✅ GENIUS Act（利好 Circle，已生效）</h4>
+<ul class="news">
+<li>2025 Q4 签署成法，确立联邦稳定币监管框架</li>
+<li>要求 100% 储备 + 月度披露 + 受监管发行方</li>
+<li>Circle 现行实践完全契合 → 合规壁垒</li>
+<li>禁止算法稳定币、非合规离岸发行方对美零售</li>
+<li><strong>2026/03 CLARITY 妥协版本</strong>促使 CRCL 单日 +20%</li>
+</ul>
+</div>
+<div class="bear">
+<h4 class="neg">⚠️ CLARITY Act（仍在国会，影响未定）</h4>
+<ul class="news">
+<li>原版提案禁止 CEX 平台对稳定币付息</li>
+<li>若严苛通过：直接打击 Circle Earn + 影响 USDC on Coinbase 经济</li>
+<li>2026/03 出现妥协版本，市场对结果存乐观预期</li>
+<li>需密切跟踪国会动向与具体条款</li>
+</ul>
+</div>
+</div>
+</div>
+</details>
+<details class="expand">
+<summary>⚔️ 竞争格局详细对比</summary>
+<div class="body">
+<table>
+<thead><tr><th>稳定币</th><th>发行方</th><th>市值</th><th>市占</th><th>定位 / 关键差异</th></tr></thead>
+<tbody>
+<tr><td>USDT</td><td>Tether</td><td>$190B</td><td>58.8%</td><td>新兴市场 / 全球流动性主导 · 储备透明度较低</td></tr>
+<tr><td><strong>USDC</strong></td><td><strong>Circle</strong></td><td><strong>$77B</strong></td><td><strong>24.0%</strong></td><td><strong>机构 / 合规标准 · 全透明储备</strong></td></tr>
+<tr><td>USAT (新)</td><td>Tether × Anchorage</td><td>—</td><td>—</td><td>Tether 的 GENIUS 合规版，2026/01 推出，直击 USDC 机构份额 ⚠️</td></tr>
+<tr><td>USDe</td><td>Ethena</td><td>~$10B</td><td>~3%</td><td>合成型，Delta 中性，DeFi 原生</td></tr>
+<tr><td>PYUSD</td><td>PayPal × Paxos</td><td>~$1B</td><td>&lt;1%</td><td>支付场景，B2C</td></tr>
+<tr><td>FDUSD</td><td>First Digital</td><td>~$2B</td><td>~1%</td><td>Binance 推广</td></tr>
+<tr><td>RLUSD</td><td>Ripple</td><td>~$1B</td><td>&lt;1%</td><td>跨境支付，XRPL 优化</td></tr>
+<tr><td>银行系（多个）</td><td>JPM / BNY / Citi 等</td><td>—</td><td>—</td><td>陆续推出，对私户与机构双向冲击</td></tr>
+</tbody>
+</table>
+<div class="note">非美元稳定币目前合计 &lt;0.5% 市占。最关键的中长期博弈：<strong>USAT vs USDC 在美国机构市场的份额争夺</strong>。</div>
+</div>
+</details>
+<details class="expand">
+<summary>📊 利率敏感性官方测算（基于 2025/6 数据）</summary>
+<div class="body">
+<table>
+<thead><tr><th>利率变动</th><th>对储备收入年化影响 ($M)</th><th>对分销费年化影响 ($M)</th><th>净影响 ($M)</th></tr></thead>
+<tbody>
+<tr><td class="pos">+200bp</td><td class="pos">+1,235</td><td class="pos">+631</td><td class="pos">+604</td></tr>
+<tr><td class="pos">+100bp</td><td class="pos">+618</td><td class="pos">+315</td><td class="pos">+303</td></tr>
+<tr><td class="neg">-100bp</td><td class="neg">-618</td><td class="neg">-315</td><td class="neg">-303</td></tr>
+<tr><td class="neg">-200bp</td><td class="neg">-1,235</td><td class="neg">-631</td><td class="neg">-604</td></tr>
+</tbody>
+</table>
+<div class="note">官方招股披露口径。<strong>降息 100bp ≈ 净利润年化减少 $300M</strong>（按 2025/6 流通量 ~$61B 计算）。当前流通量已达 $77B，敏感性放大约 1.25 倍。<br/>结论：<strong>Circle 是降息周期相对受损方</strong>，但流通量扩张可部分对冲。每 +$10B 流通量 ≈ +$400M 年化储备收入（@ 4% 利率）。</div>
+</div>
+</details>
+<!-- ▍加密市场环境 -->
+<h2 class="section-title">₿ 加密市场环境（与 Circle 周期高度相关）</h2>
+<div class="grid cols-4">
+<div class="card"><h3>BTC 现价</h3>
+<div class="kpi">~$63.9K</div>
+<div class="kpi-sub">距 ATH $126K <span class="neg">-42%</span> · 2025/10/06</div>
+</div>
+<div class="card"><h3>BTC 市值</h3>
+<div class="kpi">$1.47 T</div>
+<div class="kpi-sub">流通 20.04M (95% of max)</div>
+</div>
+<div class="card"><h3>2025 稳定币转账总量</h3>
+<div class="kpi">$33 T</div>
+<div class="kpi-sub"><span class="delta-up">+72% YoY</span> · USDC 首次反超 USDT</div>
+</div>
+<div class="card"><h3>2025 CEX 现货交易额</h3>
+<div class="kpi">$18.6 T</div>
+<div class="kpi-sub"><span class="delta-up">+9% YoY</span> · Top 12 处理 $21T</div>
+</div>
+</div>
+<div class="grid cols-2" style="margin-top:14px;">
+<div class="card">
+<h3>📈 BTC 月度收盘价（2024 至今，USD）</h3>
+<div class="chart-wrap"><canvas id="btcChart"></canvas></div>
+<div class="note">2025/10 ATH $126K → 2026/02 低点 $60K（-52%）→ 当前 $73K 反弹。Circle 储备规模与 BTC 周期高度相关，加密牛市 = 链上活动放大 = USDC 流通扩张。</div>
+</div>
+<div class="card">
+<h3>⚖️ USDC vs USDT 链上转账量对比（月度，万亿美元）<span class="badge good" style="margin-left:8px;">USDC 反超</span></h3>
+<div class="chart-wrap"><canvas id="stableVolChart"></canvas></div>
+<div class="note">2025 全年 USDC $18.3T vs USDT $13.3T，<strong>USDC 首次反超</strong>。2026/02 单月 USDC $1.26T vs USDT $514B（USDC 70% 份额）。<br/>真实使用 vs 流通量市占的<strong>巨大背离</strong>是 Circle 估值核心论据。</div>
+</div>
+</div>
+<div class="grid cols-2" style="margin-top:14px;">
+<div class="card">
+<h3>🏛️ Top CEX 月度现货交易额（十亿美元）</h3>
+<div class="chart-wrap"><canvas id="cexVolChart"></canvas></div>
+<div class="note">2026 早期 Top 10 月均 ~$1.4T（vs 2025 末峰值下滑 -15%）。Binance ~40% 现货市占率，Coinbase 美国第一。<br/>市场总市值收缩 → USDC 储备规模可能<strong>下行压力</strong>。</div>
+</div>
+<div class="card">
+<h3>📊 USDC 真实使用 vs 流通市占（关键背离）</h3>
+<div class="chart-wrap"><canvas id="usdcShareChart"></canvas></div>
+<div class="note">USDC <strong>市值市占</strong> 24% vs <strong>转账量市占</strong> 55% vs <strong>x402 agentic 支付</strong> 99%+。<br/>真实使用层面 USDC 已经是绝对主导，估值有空间从"市值锚"切换到"使用量锚"。</div>
+</div>
+</div>
+<details class="expand" open="" style="margin-top:14px;">
+<summary>📖 关键洞察：Circle 与加密市场周期关联性</summary>
+<div class="body">
+<ul class="news">
+<li><span class="date">规模驱动</span> USDC 储备规模主要受 <strong>BTC/加密市场周期</strong>影响：牛市 → DeFi 活跃 → stablecoin 铸造增加 → Circle 储备收入扩张</li>
+<li><span class="date">2025-10 高点</span> BTC 触及 $126K 同期 USDC 流通也冲至 $76B（高度同步）</li>
+<li><span class="date">2026-02 低谷</span> BTC 跌至 $60K（-52% from ATH）同期 CRCL 股价跌至 52w 低 $49.9，加密市场整体 -45%</li>
+<li><span class="date">反周期信号</span> 尽管加密市场 -45%，<strong>USDC 流通量仍 +28% YoY</strong>（管理层在 Q1 26 电话会议反复强调）— 暗示 USDC 已部分脱钩 BTC 周期，向支付/结算切换</li>
+<li><span class="date">USDC 反超 USDT</span> 2025 年全年转账量 $18.3T vs $13.3T；Solana DeFi 标准化是关键推手</li>
+<li><span class="date">利率 vs 周期</span> 加密牛市 + 高利率 = Circle 双击；加密熊市 + 降息 = Circle 双杀。当前进入<strong>双重不利</strong>窗口（市场震荡 + 降息预期）</li>
+</ul>
+</div>
+</details>
 </section>
-
 <!-- ============ 4. 公司估值 ============ -->
 <section class="panel" id="valuation">
-
-  <div class="grid cols-4">
-    <div class="card"><h3>当前 PE (TTM)</h3>
-      <div class="kpi">NM</div>
-      <div class="kpi-sub">FY25 净亏（IPO SBC 影响）</div>
-    </div>
-    <div class="card"><h3>2026E PE</h3>
-      <div class="kpi">53.6×</div>
-      <div class="kpi-sub">国投 $385M · Wall St 78×</div>
-    </div>
-    <div class="card"><h3>2027E PE</h3>
-      <div class="kpi">35.3×</div>
-      <div class="kpi-sub">国投 $603M 净利</div>
-    </div>
-    <div class="card"><h3>EV / Sales (2026E)</h3>
-      <div class="kpi">7.7×</div>
-      <div class="kpi-sub">PS Ratio · 高于传统金融股</div>
-    </div>
-  </div>
-
-  <details class="expand" open style="margin-top:14px;">
-    <summary>🎯 2026E 净利润敏感性矩阵（USDC 增速 × 储蓄利率）</summary>
-    <div class="body">
-      <table>
-        <thead><tr>
-          <th>USDC 增速 \ 利率</th><th>3.00%</th><th>3.25%</th><th>3.50%</th><th>3.75%</th><th>4.00%</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>15%</td><td>237</td><td>269</td><td>301</td><td>334</td><td>366</td></tr>
-          <tr><td>20%</td><td>254</td><td>287</td><td>321</td><td>355</td><td>389</td></tr>
-          <tr><td>25%</td><td>270</td><td>306</td><td>341</td><td>376</td><td>411</td></tr>
-          <tr><td>30%</td><td>287</td><td>324</td><td>361</td><td>397</td><td>434</td></tr>
-          <tr style="background: rgba(79,140,255,0.10);"><td><strong>35%（基准）</strong></td><td>304</td><td>342</td><td>380</td><td>418</td><td><strong>457</strong></td></tr>
-          <tr><td>40%</td><td>321</td><td>361</td><td>400</td><td>440</td><td>479</td></tr>
-          <tr><td>45%</td><td>338</td><td>379</td><td>420</td><td>461</td><td>502</td></tr>
-          <tr><td>50%</td><td>355</td><td>397</td><td>440</td><td>482</td><td>524</td></tr>
-          <tr><td>55%</td><td>372</td><td>416</td><td>459</td><td>503</td><td>547</td></tr>
-        </tbody>
-      </table>
-      <div class="note">单位：百万美元。Q1 2026 USDC 同比 +28%（处于矩阵 25-30% 区间），利率 ~4.25-4.50%，对应基线 ~$400-450M 净利。</div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🎯 对应 PE 倍数矩阵（市值 $26.4B 静态）</summary>
-    <div class="body">
-      <table>
-        <thead><tr>
-          <th>USDC 增速 \ 利率</th><th>3.00%</th><th>3.25%</th><th>3.50%</th><th>3.75%</th><th>4.00%</th>
-        </tr></thead>
-        <tbody>
-          <tr><td>15%</td><td>111×</td><td>98×</td><td>88×</td><td>79×</td><td>72×</td></tr>
-          <tr><td>25%</td><td>98×</td><td>86×</td><td>77×</td><td>70×</td><td>64×</td></tr>
-          <tr style="background: rgba(79,140,255,0.10);"><td><strong>35%（基准）</strong></td><td>87×</td><td>77×</td><td>69×</td><td>63×</td><td><strong>58×</strong></td></tr>
-          <tr><td>45%</td><td>78×</td><td>70×</td><td>63×</td><td>57×</td><td>53×</td></tr>
-          <tr><td>55%</td><td>71×</td><td>64×</td><td>57×</td><td>52×</td><td>48×</td></tr>
-        </tbody>
-      </table>
-      <div class="note">基线对应 PE ~58-60×，处于"高增长定价"区间。若 USDC 维持 35%+ 增速且利率不降，估值有支撑；若增速跌至 25% 以下，对应 PE 会跳至 70× 以上。</div>
-    </div>
-  </details>
-
-  <details class="expand" open>
-    <summary>🎯 分析师目标价分布（21 位分析师）</summary>
-    <div class="body">
-      <div class="analyst-row header">
-        <div>机构</div><div>评级</div><div>目标价</div><div>较现价</div><div>关键观点</div>
-      </div>
-      <div class="analyst-row">
-        <div><strong>Bernstein</strong></div><div class="pos">Outperform</div><div>$190</div><div class="pos">+75.5%</div><div style="font-size:11px;">Arc + AI agentic finance 主线</div>
-      </div>
-      <div class="analyst-row">
-        <div>Clear Street (新上调)</div><div class="pos">Buy</div><div>$157 ↑$152</div><div class="pos">+45.0%</div><div style="font-size:11px;">2026-05 财报后上调</div>
-      </div>
-      <div class="analyst-row">
-        <div><strong>JPMorgan</strong> (新大幅上调)</div><div class="pos">Overweight</div><div>$155 ↑$112</div><div class="pos">+43.2%</div><div style="font-size:11px;">⭐ 从 $80 一路上调，立场反转</div>
-      </div>
-      <div class="analyst-row">
-        <div>Needham</div><div class="pos">Buy</div><div>$150 ↑$130</div><div class="pos">+38.6%</div><div style="font-size:11px;">财报后上调</div>
-      </div>
-      <div class="analyst-row">
-        <div>Wells Fargo</div><div class="pos">Buy</div><div>$142</div><div class="pos">+31.2%</div><div style="font-size:11px;">2026-05-05 上调</div>
-      </div>
-      <div class="analyst-row">
-        <div>Mizuho</div><div class="pos">Buy</div><div>$135 ↑$120</div><div class="pos">+24.7%</div><div style="font-size:11px;">2026-05 上调</div>
-      </div>
-      <div class="analyst-row">
-        <div>共识中位</div><div class="pos">Buy</div><div>$125 - $147</div><div class="pos">+15~36%</div><div style="font-size:11px;">21 位分析师</div>
-      </div>
-      <div class="analyst-row">
-        <div><strong>Morgan Stanley</strong> (新上调)</div><div class="warn">Equal-weight</div><div>$106 ↑$80</div><div class="neg">-2.1%</div><div style="font-size:11px;">⭐ 从 $80 上调，仍谨慎</div>
-      </div>
-      <div class="analyst-row">
-        <div>Deutsche Bank</div><div class="warn">Hold</div><div>$101 ↑$83</div><div class="neg">-6.7%</div><div style="font-size:11px;">上调但维持谨慎</div>
-      </div>
-      <div class="analyst-row">
-        <div>KeyBanc (新启动)</div><div class="warn">Sector Weight</div><div>—</div><div>—</div><div style="font-size:11px;">2026-05 启动覆盖</div>
-      </div>
-      <div class="analyst-row">
-        <div><strong>Goldman Sachs</strong></div><div class="warn">Neutral</div><div>$83</div><div class="neg">-23.3%</div><div style="font-size:11px;">仍维持谨慎</div>
-      </div>
-      <div class="note">⭐ <strong>5 月研报联动上调</strong>：Q1 财报 + Arc Presale + CLARITY 妥协三催化叠加，JPM、MS、Needham、Mizuho、Deutsche、Clear Street 集中上调目标价。Bull camp 主导，但 Goldman / MS / DB 仍在 $83-106 区间警示估值。共识中位 $125-147，对应当前价 +15%~36%。</div>
-    </div>
-  </details>
+<div class="grid cols-4">
+<div class="card"><h3>当前 PE (TTM)</h3>
+<div class="kpi">NM</div>
+<div class="kpi-sub">FY25 净亏（IPO SBC 影响）</div>
+</div>
+<div class="card"><h3>2026E PE</h3>
+<div class="kpi">53.6×</div>
+<div class="kpi-sub">国投 $385M · Wall St 78×</div>
+</div>
+<div class="card"><h3>2027E PE</h3>
+<div class="kpi">35.3×</div>
+<div class="kpi-sub">国投 $603M 净利</div>
+</div>
+<div class="card"><h3>EV / Sales (2026E)</h3>
+<div class="kpi">7.7×</div>
+<div class="kpi-sub">PS Ratio · 高于传统金融股</div>
+</div>
+</div>
+<details class="expand" open="" style="margin-top:14px;">
+<summary>🎯 2026E 净利润敏感性矩阵（USDC 增速 × 储蓄利率）</summary>
+<div class="body">
+<table>
+<thead><tr>
+<th>USDC 增速 \ 利率</th><th>3.00%</th><th>3.25%</th><th>3.50%</th><th>3.75%</th><th>4.00%</th>
+</tr></thead>
+<tbody>
+<tr><td>15%</td><td>237</td><td>269</td><td>301</td><td>334</td><td>366</td></tr>
+<tr><td>20%</td><td>254</td><td>287</td><td>321</td><td>355</td><td>389</td></tr>
+<tr><td>25%</td><td>270</td><td>306</td><td>341</td><td>376</td><td>411</td></tr>
+<tr><td>30%</td><td>287</td><td>324</td><td>361</td><td>397</td><td>434</td></tr>
+<tr style="background: rgba(79,140,255,0.10);"><td><strong>35%（基准）</strong></td><td>304</td><td>342</td><td>380</td><td>418</td><td><strong>457</strong></td></tr>
+<tr><td>40%</td><td>321</td><td>361</td><td>400</td><td>440</td><td>479</td></tr>
+<tr><td>45%</td><td>338</td><td>379</td><td>420</td><td>461</td><td>502</td></tr>
+<tr><td>50%</td><td>355</td><td>397</td><td>440</td><td>482</td><td>524</td></tr>
+<tr><td>55%</td><td>372</td><td>416</td><td>459</td><td>503</td><td>547</td></tr>
+</tbody>
+</table>
+<div class="note">单位：百万美元。Q1 2026 USDC 同比 +28%（处于矩阵 25-30% 区间），利率 ~4.25-4.50%，对应基线 ~$400-450M 净利。</div>
+</div>
+</details>
+<details class="expand">
+<summary>🎯 对应 PE 倍数矩阵（市值 $26.4B 静态）</summary>
+<div class="body">
+<table>
+<thead><tr>
+<th>USDC 增速 \ 利率</th><th>3.00%</th><th>3.25%</th><th>3.50%</th><th>3.75%</th><th>4.00%</th>
+</tr></thead>
+<tbody>
+<tr><td>15%</td><td>111×</td><td>98×</td><td>88×</td><td>79×</td><td>72×</td></tr>
+<tr><td>25%</td><td>98×</td><td>86×</td><td>77×</td><td>70×</td><td>64×</td></tr>
+<tr style="background: rgba(79,140,255,0.10);"><td><strong>35%（基准）</strong></td><td>87×</td><td>77×</td><td>69×</td><td>63×</td><td><strong>58×</strong></td></tr>
+<tr><td>45%</td><td>78×</td><td>70×</td><td>63×</td><td>57×</td><td>53×</td></tr>
+<tr><td>55%</td><td>71×</td><td>64×</td><td>57×</td><td>52×</td><td>48×</td></tr>
+</tbody>
+</table>
+<div class="note">基线对应 PE ~58-60×，处于"高增长定价"区间。若 USDC 维持 35%+ 增速且利率不降，估值有支撑；若增速跌至 25% 以下，对应 PE 会跳至 70× 以上。</div>
+</div>
+</details>
+<details class="expand" open="">
+<summary>🎯 分析师目标价分布（21 位分析师）</summary>
+<div class="body">
+<div class="analyst-row header">
+<div>机构</div><div>评级</div><div>目标价</div><div>较现价</div><div>关键观点</div>
+</div>
+<div class="analyst-row">
+<div><strong>Bernstein</strong></div><div class="pos">Outperform</div><div>$190</div><div class="pos">+75.5%</div><div style="font-size:11px;">Arc + AI agentic finance 主线</div>
+</div>
+<div class="analyst-row">
+<div>Clear Street (新上调)</div><div class="pos">Buy</div><div>$157 ↑$152</div><div class="pos">+45.0%</div><div style="font-size:11px;">2026-05 财报后上调</div>
+</div>
+<div class="analyst-row">
+<div><strong>JPMorgan</strong> (新大幅上调)</div><div class="pos">Overweight</div><div>$155 ↑$112</div><div class="pos">+43.2%</div><div style="font-size:11px;">⭐ 从 $80 一路上调，立场反转</div>
+</div>
+<div class="analyst-row">
+<div>Needham</div><div class="pos">Buy</div><div>$150 ↑$130</div><div class="pos">+38.6%</div><div style="font-size:11px;">财报后上调</div>
+</div>
+<div class="analyst-row">
+<div>Wells Fargo</div><div class="pos">Buy</div><div>$142</div><div class="pos">+31.2%</div><div style="font-size:11px;">2026-05-05 上调</div>
+</div>
+<div class="analyst-row">
+<div>Mizuho</div><div class="pos">Buy</div><div>$135 ↑$120</div><div class="pos">+24.7%</div><div style="font-size:11px;">2026-05 上调</div>
+</div>
+<div class="analyst-row">
+<div>共识中位</div><div class="pos">Buy</div><div>$125 - $147</div><div class="pos">+15~36%</div><div style="font-size:11px;">21 位分析师</div>
+</div>
+<div class="analyst-row">
+<div><strong>Morgan Stanley</strong> (新上调)</div><div class="warn">Equal-weight</div><div>$106 ↑$80</div><div class="neg">-2.1%</div><div style="font-size:11px;">⭐ 从 $80 上调，仍谨慎</div>
+</div>
+<div class="analyst-row">
+<div>Deutsche Bank</div><div class="warn">Hold</div><div>$101 ↑$83</div><div class="neg">-6.7%</div><div style="font-size:11px;">上调但维持谨慎</div>
+</div>
+<div class="analyst-row">
+<div>KeyBanc (新启动)</div><div class="warn">Sector Weight</div><div>—</div><div>—</div><div style="font-size:11px;">2026-05 启动覆盖</div>
+</div>
+<div class="analyst-row">
+<div><strong>Goldman Sachs</strong></div><div class="warn">Neutral</div><div>$83</div><div class="neg">-23.3%</div><div style="font-size:11px;">仍维持谨慎</div>
+</div>
+<div class="note">⭐ <strong>5 月研报联动上调</strong>：Q1 财报 + Arc Presale + CLARITY 妥协三催化叠加，JPM、MS、Needham、Mizuho、Deutsche、Clear Street 集中上调目标价。Bull camp 主导，但 Goldman / MS / DB 仍在 $83-106 区间警示估值。共识中位 $125-147，对应当前价 +15%~36%。</div>
+</div>
+</details>
 </section>
-
 <!-- ============ 5. 市场观点 ============ -->
 <section class="panel" id="views">
-
-  <div class="scorecard">
-    <div class="bull">
-      <h4 class="pos">🐂 多头逻辑（Bull Case）</h4>
-      <ul class="news">
-        <li><span class="date">监管</span> GENIUS Act 立法红利，Circle <strong>头部合规获益者</strong></li>
-        <li><span class="date">网络</span> Visa 数据：USDC 占稳定币交易额 <strong>63%</strong>，机构标准地位</li>
-        <li><span class="date">用量</span> Q1 链上交易 +263% YoY，支付/清算用例放量</li>
-        <li><span class="date">Arc</span> 自有公链估值打开 "不止是稳定币" 锚 → Bernstein $190</li>
-        <li><span class="date">机构</span> BlackRock / Apollo / Goldman / Visa / Deutsche Bank 测试</li>
-        <li><span class="date">利率</span> 仍处 4%+，每延后一次降息利好 ~$300M 年化</li>
-        <li><span class="date">AI Finance</span> agentic AI 支付场景 → 增量 use case</li>
-      </ul>
-    </div>
-    <div class="bear">
-      <h4 class="neg">🐻 空头逻辑（Bear Case）</h4>
-      <ul class="news">
-        <li><span class="date">竞争</span> Tether USAT 进入美国机构市场 → 护城河收窄 <span class="badge bad">高</span></li>
-        <li><span class="date">利率</span> 99% 收入依赖储备 → 每降息 100bp 净利 -$300M+ <span class="badge bad">高</span></li>
-        <li><span class="date">分销</span> Coinbase 拿走每 $1 中 ~$0.54 <span class="badge warn">结构问题</span></li>
-        <li><span class="date">银行</span> JPM / BNY 等推自有稳定币，挤压机构市场 <span class="badge warn">中</span></li>
-        <li><span class="date">监管</span> CLARITY Act 若过会，打击 Circle Earn <span class="badge warn">中</span></li>
-        <li><span class="date">估值</span> 2026E PE 50-80× Price in 高增长 · JPM/GS 目标价 $80 <span class="badge bad">高</span></li>
-        <li><span class="date">USDC 增速</span> YoY 增速从 +108% 降至 +28%，基数高峰将过 <span class="badge warn">中</span></li>
-      </ul>
-    </div>
-  </div>
-
-  <details class="expand" open style="margin-top:14px;">
-    <summary>🧠 综合判断（基于研报共识）</summary>
-    <div class="body">
-      <p style="font-size:13px; line-height:1.75;">
+<div class="scorecard">
+<div class="bull">
+<h4 class="pos">🐂 多头逻辑（Bull Case）</h4>
+<ul class="news">
+<li><span class="date">监管</span> GENIUS Act 立法红利，Circle <strong>头部合规获益者</strong></li>
+<li><span class="date">网络</span> Visa 数据：USDC 占稳定币交易额 <strong>63%</strong>，机构标准地位</li>
+<li><span class="date">用量</span> Q1 链上交易 +263% YoY，支付/清算用例放量</li>
+<li><span class="date">Arc</span> 自有公链估值打开 "不止是稳定币" 锚 → Bernstein $190</li>
+<li><span class="date">机构</span> BlackRock / Apollo / Goldman / Visa / Deutsche Bank 测试</li>
+<li><span class="date">利率</span> 仍处 4%+，每延后一次降息利好 ~$300M 年化</li>
+<li><span class="date">AI Finance</span> agentic AI 支付场景 → 增量 use case</li>
+</ul>
+</div>
+<div class="bear">
+<h4 class="neg">🐻 空头逻辑（Bear Case）</h4>
+<ul class="news">
+<li><span class="date">竞争</span> Tether USAT 进入美国机构市场 → 护城河收窄 <span class="badge bad">高</span></li>
+<li><span class="date">利率</span> 99% 收入依赖储备 → 每降息 100bp 净利 -$300M+ <span class="badge bad">高</span></li>
+<li><span class="date">分销</span> Coinbase 拿走每 $1 中 ~$0.54 <span class="badge warn">结构问题</span></li>
+<li><span class="date">银行</span> JPM / BNY 等推自有稳定币，挤压机构市场 <span class="badge warn">中</span></li>
+<li><span class="date">监管</span> CLARITY Act 若过会，打击 Circle Earn <span class="badge warn">中</span></li>
+<li><span class="date">估值</span> 2026E PE 50-80× Price in 高增长 · JPM/GS 目标价 $80 <span class="badge bad">高</span></li>
+<li><span class="date">USDC 增速</span> YoY 增速从 +108% 降至 +28%，基数高峰将过 <span class="badge warn">中</span></li>
+</ul>
+</div>
+</div>
+<details class="expand" open="" style="margin-top:14px;">
+<summary>🧠 综合判断（基于研报共识）</summary>
+<div class="body">
+<p style="font-size:13px; line-height:1.75;">
         21 位分析师 <strong>12 Buy / 5 Hold / 1 Sell</strong>，倾向看多但分歧创历史新高（目标价区间 <strong>$77 → $280</strong>，spread 263%）。这种极端分歧反映两个根本性问题尚未明朗：
       </p>
-      <ol style="font-size:13px; line-height:1.75;">
-        <li><strong>USDC 能否在 USAT + 银行系稳定币竞争中保住机构份额</strong>？这是 bear case 的核心。Tether USAT 通过 Anchorage 拿到了 OCC 牌照，可对美国机构合规销售，是 2026 年最大单一变量。</li>
-        <li><strong>Arc 链能否在 2026 兑现非储备业务收入</strong>？这是 bull case 的核心。Bernstein 把目标价从 $120 上调至 $190 的关键变量。若 Arc 主网上线 + TVL 起量，估值锚有望从"货币基金 × 杠杆" 切换到 "Web3 基础设施"。</li>
-      </ol>
-      <p style="font-size:13px; line-height:1.75;">
-        <strong>建议关注重点：</strong>
+<ol style="font-size:13px; line-height:1.75;">
+<li><strong>USDC 能否在 USAT + 银行系稳定币竞争中保住机构份额</strong>？这是 bear case 的核心。Tether USAT 通过 Anchorage 拿到了 OCC 牌照，可对美国机构合规销售，是 2026 年最大单一变量。</li>
+<li><strong>Arc 链能否在 2026 兑现非储备业务收入</strong>？这是 bull case 的核心。Bernstein 把目标价从 $120 上调至 $190 的关键变量。若 Arc 主网上线 + TVL 起量，估值锚有望从"货币基金 × 杠杆" 切换到 "Web3 基础设施"。</li>
+</ol>
+<p style="font-size:13px; line-height:1.75;">
+<strong>建议关注重点：</strong>
         ① <strong>USDC 月度增速</strong>是否维持 +2% 以上；
         ② <strong>FOMC 6/17、7/30、9/17 议息</strong>路径；
         ③ <strong>Arc 主网上线</strong>时间与初始 TVL；
         ④ <strong>Coinbase 分销协议</strong>续约条款（2026 是否到期）；
         ⑤ <strong>CLARITY Act</strong>国会进展。
       </p>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>📋 看多 / 看空切换信号表（实时跟踪）</summary>
-    <div class="body">
-      <table>
-        <thead><tr><th>核心指标</th><th class="pos">看多信号</th><th class="neg">看空信号</th><th>当前状态</th></tr></thead>
-        <tbody>
-          <tr><td>USDC 月度增速</td><td class="pos">连续 3 月 > +2%</td><td class="neg">连续 2 月停滞或下降</td><td class="warn">~+1% Q1 平均</td></tr>
-          <tr><td>USDT/USDC 份额差</td><td class="pos">差距缩小</td><td class="neg">USAT 替代 USDC 机构份额</td><td class="warn">未明</td></tr>
-          <tr><td>3M 美债收益率</td><td class="pos">维持 ≥ 4%</td><td class="neg">快速跌破 3.5%</td><td class="pos">~3.91%</td></tr>
-          <tr><td>Arc 进度</td><td class="pos">如期上线 + 顶级机构集成</td><td class="neg">延期 / 早期 TVL 低迷</td><td class="pos">Testnet 100+ 机构</td></tr>
-          <tr><td>CLARITY Act</td><td class="pos">搁置 / 不禁付息</td><td class="neg">国会推进禁止</td><td class="pos">妥协版迹象</td></tr>
-          <tr><td>季度收入 YoY</td><td class="pos">> +25%</td><td class="neg">< +15%</td><td class="warn">Q1 +20% (基数效应)</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🔍 国投证券核心结论摘录</summary>
-    <div class="body">
-      <p style="font-size:13px; line-height:1.75;">
-        国投非银团队在该模型中预估 Circle 2026 年净利润 <strong>$385M</strong>、2027 年 <strong>$603M</strong>，对应 P/E 53.6× / 35.3×。模型基线假设：USDC 增速 35%、储备利率 4%、Coinbase 分销结构不变。<br>
+</div>
+</details>
+<details class="expand">
+<summary>📋 看多 / 看空切换信号表（实时跟踪）</summary>
+<div class="body">
+<table>
+<thead><tr><th>核心指标</th><th class="pos">看多信号</th><th class="neg">看空信号</th><th>当前状态</th></tr></thead>
+<tbody>
+<tr><td>USDC 月度增速</td><td class="pos">连续 3 月 &gt; +2%</td><td class="neg">连续 2 月停滞或下降</td><td class="warn">~+1% Q1 平均</td></tr>
+<tr><td>USDT/USDC 份额差</td><td class="pos">差距缩小</td><td class="neg">USAT 替代 USDC 机构份额</td><td class="warn">未明</td></tr>
+<tr><td>3M 美债收益率</td><td class="pos">维持 ≥ 4%</td><td class="neg">快速跌破 3.5%</td><td class="pos">~3.91%</td></tr>
+<tr><td>Arc 进度</td><td class="pos">如期上线 + 顶级机构集成</td><td class="neg">延期 / 早期 TVL 低迷</td><td class="pos">Testnet 100+ 机构</td></tr>
+<tr><td>CLARITY Act</td><td class="pos">搁置 / 不禁付息</td><td class="neg">国会推进禁止</td><td class="pos">妥协版迹象</td></tr>
+<tr><td>季度收入 YoY</td><td class="pos">&gt; +25%</td><td class="neg">&lt; +15%</td><td class="warn">Q1 +20% (基数效应)</td></tr>
+</tbody>
+</table>
+</div>
+</details>
+<details class="expand">
+<summary>🔍 国投证券核心结论摘录</summary>
+<div class="body">
+<p style="font-size:13px; line-height:1.75;">
+        国投非银团队在该模型中预估 Circle 2026 年净利润 <strong>$385M</strong>、2027 年 <strong>$603M</strong>，对应 P/E 53.6× / 35.3×。模型基线假设：USDC 增速 35%、储备利率 4%、Coinbase 分销结构不变。<br/>
         敏感性结论：<strong>USDC 增速</strong>是估值的最大单变量，从 15% → 55% 可让 2026E 净利从 $240M 翻倍至 $470M+。
       </p>
-    </div>
-  </details>
+</div>
+</details>
 </section>
-
 <!-- ============ 6. 公告 / SEC ============ -->
 <section class="panel" id="filings">
-
-  <!-- ▍A. SEC 备案 -->
-  <h2 class="section-title">📄 A. SEC 关键备案历史</h2>
-  <div class="card">
-    <table>
-      <thead><tr><th>日期</th><th>类型</th><th>内容摘要</th><th>链接</th></tr></thead>
-      <tbody>
-        <tr>
-          <td>2026-05-11</td><td>8-K</td>
-          <td>Q1 2026 财报 + Arc Presale $222M 完成披露</td>
-          <td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000187604226000148/final_05x11q1epr30.htm" target="_blank">↗ 8-K</a></td>
-        </tr>
-        <tr>
-          <td>2026-03-09</td><td>10-K (FY2025)</td>
-          <td>年报：收入 $2.7B、净亏 -$70M、stablecoin holder deposits $74.9B</td>
-          <td><a class="source-link" href="https://www.stocktitan.net/sec-filings/CRCL/10-k-circle-internet-group-inc-files-annual-report-ab07900c4a98.html" target="_blank">↗ 10-K</a></td>
-        </tr>
-        <tr>
-          <td>2026-02-25</td><td>8-K</td>
-          <td>Q4 2025 & FY2025 财报披露</td>
-          <td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000187604226000032/final_circlereportsfourt.htm" target="_blank">↗ 8-K</a></td>
-        </tr>
-        <tr>
-          <td>2025-11</td><td>8-K</td>
-          <td>Q3 2025 财报：收入 $740M、净利 $214M</td>
-          <td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000187604225000045/nolivelinksversion_q3202.htm" target="_blank">↗ 8-K</a></td>
-        </tr>
-        <tr>
-          <td>2025-08</td><td>8-K</td>
-          <td>Q2 2025 财报 + 收购 Hashnote（机构货币市场基金平台）</td>
-          <td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000162828025039749/q22025epr.htm" target="_blank">↗ 8-K</a></td>
-        </tr>
-        <tr>
-          <td>2025-06</td><td>S-1 / 招股书</td>
-          <td>IPO 招股书；含利率敏感性官方披露口径、Coinbase 分销条款</td>
-          <td><a class="source-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001876042&type=S-1" target="_blank">↗ EDGAR</a></td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="links" style="margin-top:14px;">
-      <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001876042" target="_blank">SEC EDGAR (CIK 0001876042) →</a>
-      <a href="https://www.circle.com/pressroom" target="_blank">Circle 新闻室 →</a>
-      <a href="https://investor.circle.com/" target="_blank">Investor Relations →</a>
-    </div>
-  </div>
-
-  <!-- ▍B. 投资者 Presentation 历史 -->
-  <h2 class="section-title">🎯 B. 投资者 Presentation / Earnings Deck 历史</h2>
-  <div class="card">
-    <table>
-      <thead><tr>
-        <th>季度</th><th>发布日期</th><th>类型</th><th>关键披露要点</th><th>链接</th>
-      </tr></thead>
-      <tbody>
-        <tr>
-          <td><strong>Q1 2026</strong></td><td>2026-05-11</td>
-          <td>Earnings Presentation</td>
-          <td>USDC $77B（+28%）· 链上量 $21.5T（+263%）· Arc Presale $222M @ $3B FDV</td>
-          <td><a class="source-link" href="https://investor.circle.com/events-and-presentations/event-details/2026/Circle-Internet-Group-Q1-2026-Earnings-Call/default.aspx" target="_blank">↗ IR · Q1 26</a></td>
-        </tr>
-        <tr>
-          <td><strong>Q4 2025</strong></td><td>2026-02-25</td>
-          <td>Earnings Presentation</td>
-          <td>USDC $75.3B（+72%）· 链上量 $11.9T（+247%）· Reserve rate 3.81%</td>
-          <td><a class="source-link" href="https://investor.circle.com/events-and-presentations/event-details/2026/Circle-Internet-Group-Q4-2025-Earnings-Call/default.aspx" target="_blank">↗ IR · Q4 25</a></td>
-        </tr>
-        <tr>
-          <td><strong>Q3 2025</strong></td><td>2025-11-12</td>
-          <td>Earnings Presentation</td>
-          <td>USDC $73.7B（+108%）· Arc Testnet 上线 · CPN ARR $3.4B</td>
-          <td><a class="source-link" href="https://s206.q4cdn.com/265218871/files/doc_earnings/2025/q3/earnings-result/3Q25-Earnings-Release.pdf" target="_blank">↗ PDF</a></td>
-        </tr>
-        <tr>
-          <td><strong>Q2 2025</strong></td><td>2025-08-12</td>
-          <td>Earnings Presentation</td>
-          <td>首次发布（Post-IPO）· USDC $61B · 含 IPO 一次性 SBC $424M 解释</td>
-          <td><a class="source-link" href="https://investor.circle.com/events-and-presentations/event-details/2025/Circle-Internet-Group-Q2-2025-Earnings-Call/default.aspx" target="_blank">↗ IR · Q2 25</a></td>
-        </tr>
-        <tr>
-          <td>IPO 路演</td><td>2025-05~06</td>
-          <td>Roadshow Deck</td>
-          <td>Goldman / JPM 联席承销 · 含 Arc 早期愿景、储备结构、Coinbase 经济条款</td>
-          <td><a class="source-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001876042&type=S-1" target="_blank">↗ S-1</a></td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="note">Earnings Presentation 通常与 8-K 同日发布，附在 Exhibit 99.2，slide 数 20-30 页，含 KPI 走势、reserve 结构、分渠道增长等可视化材料。</div>
-  </div>
-
-  <!-- ▍C. 电话会议简要 -->
-  <h2 class="section-title">📞 C. 季度电话会议简要（管理层观点）</h2>
-
-  <details class="expand" open>
-    <summary>🎙️ Q1 2026 电话会议（2026-05-11）</summary>
-    <div class="body">
-      <p style="font-size:13px; line-height:1.7; color:var(--muted); margin:0 0 12px;">
-        <strong>管理层</strong>：CEO Jeremy Allaire · CFO Heath Tarbert · COO Elisabeth Carpenter<br>
-        <strong>分析师 Q&amp;A</strong>：Bernstein、JPM、Morgan Stanley、Wells Fargo、Mizuho、Needham 等
+<!-- ▍A. SEC 备案 -->
+<h2 class="section-title">📄 A. SEC 关键备案历史</h2>
+<div class="card">
+<table>
+<thead><tr><th>日期</th><th>类型</th><th>内容摘要</th><th>链接</th></tr></thead>
+<tbody>
+<tr>
+<td>2026-05-11</td><td>8-K</td>
+<td>Q1 2026 财报 + Arc Presale $222M 完成披露</td>
+<td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000187604226000148/final_05x11q1epr30.htm" target="_blank">↗ 8-K</a></td>
+</tr>
+<tr>
+<td>2026-03-09</td><td>10-K (FY2025)</td>
+<td>年报：收入 $2.7B、净亏 -$70M、stablecoin holder deposits $74.9B</td>
+<td><a class="source-link" href="https://www.stocktitan.net/sec-filings/CRCL/10-k-circle-internet-group-inc-files-annual-report-ab07900c4a98.html" target="_blank">↗ 10-K</a></td>
+</tr>
+<tr>
+<td>2026-02-25</td><td>8-K</td>
+<td>Q4 2025 &amp; FY2025 财报披露</td>
+<td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000187604226000032/final_circlereportsfourt.htm" target="_blank">↗ 8-K</a></td>
+</tr>
+<tr>
+<td>2025-11</td><td>8-K</td>
+<td>Q3 2025 财报：收入 $740M、净利 $214M</td>
+<td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000187604225000045/nolivelinksversion_q3202.htm" target="_blank">↗ 8-K</a></td>
+</tr>
+<tr>
+<td>2025-08</td><td>8-K</td>
+<td>Q2 2025 财报 + 收购 Hashnote（机构货币市场基金平台）</td>
+<td><a class="source-link" href="https://www.sec.gov/Archives/edgar/data/0001876042/000162828025039749/q22025epr.htm" target="_blank">↗ 8-K</a></td>
+</tr>
+<tr>
+<td>2025-06</td><td>S-1 / 招股书</td>
+<td>IPO 招股书；含利率敏感性官方披露口径、Coinbase 分销条款</td>
+<td><a class="source-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001876042&amp;type=S-1" target="_blank">↗ EDGAR</a></td>
+</tr>
+</tbody>
+</table>
+<div class="links" style="margin-top:14px;">
+<a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001876042" target="_blank">SEC EDGAR (CIK 0001876042) →</a>
+<a href="https://www.circle.com/pressroom" target="_blank">Circle 新闻室 →</a>
+<a href="https://investor.circle.com/" target="_blank">Investor Relations →</a>
+</div>
+</div>
+<!-- ▍B. 投资者 Presentation 历史 -->
+<h2 class="section-title">🎯 B. 投资者 Presentation / Earnings Deck 历史</h2>
+<div class="card">
+<table>
+<thead><tr>
+<th>季度</th><th>发布日期</th><th>类型</th><th>关键披露要点</th><th>链接</th>
+</tr></thead>
+<tbody>
+<tr>
+<td><strong>Q1 2026</strong></td><td>2026-05-11</td>
+<td>Earnings Presentation</td>
+<td>USDC $77B（+28%）· 链上量 $21.5T（+263%）· Arc Presale $222M @ $3B FDV</td>
+<td><a class="source-link" href="https://investor.circle.com/events-and-presentations/event-details/2026/Circle-Internet-Group-Q1-2026-Earnings-Call/default.aspx" target="_blank">↗ IR · Q1 26</a></td>
+</tr>
+<tr>
+<td><strong>Q4 2025</strong></td><td>2026-02-25</td>
+<td>Earnings Presentation</td>
+<td>USDC $75.3B（+72%）· 链上量 $11.9T（+247%）· Reserve rate 3.81%</td>
+<td><a class="source-link" href="https://investor.circle.com/events-and-presentations/event-details/2026/Circle-Internet-Group-Q4-2025-Earnings-Call/default.aspx" target="_blank">↗ IR · Q4 25</a></td>
+</tr>
+<tr>
+<td><strong>Q3 2025</strong></td><td>2025-11-12</td>
+<td>Earnings Presentation</td>
+<td>USDC $73.7B（+108%）· Arc Testnet 上线 · CPN ARR $3.4B</td>
+<td><a class="source-link" href="https://s206.q4cdn.com/265218871/files/doc_earnings/2025/q3/earnings-result/3Q25-Earnings-Release.pdf" target="_blank">↗ PDF</a></td>
+</tr>
+<tr>
+<td><strong>Q2 2025</strong></td><td>2025-08-12</td>
+<td>Earnings Presentation</td>
+<td>首次发布（Post-IPO）· USDC $61B · 含 IPO 一次性 SBC $424M 解释</td>
+<td><a class="source-link" href="https://investor.circle.com/events-and-presentations/event-details/2025/Circle-Internet-Group-Q2-2025-Earnings-Call/default.aspx" target="_blank">↗ IR · Q2 25</a></td>
+</tr>
+<tr>
+<td>IPO 路演</td><td>2025-05~06</td>
+<td>Roadshow Deck</td>
+<td>Goldman / JPM 联席承销 · 含 Arc 早期愿景、储备结构、Coinbase 经济条款</td>
+<td><a class="source-link" href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001876042&amp;type=S-1" target="_blank">↗ S-1</a></td>
+</tr>
+</tbody>
+</table>
+<div class="note">Earnings Presentation 通常与 8-K 同日发布，附在 Exhibit 99.2，slide 数 20-30 页，含 KPI 走势、reserve 结构、分渠道增长等可视化材料。</div>
+</div>
+<!-- ▍C. 电话会议简要 -->
+<h2 class="section-title">📞 C. 季度电话会议简要（管理层观点）</h2>
+<details class="expand" open="">
+<summary>🎙️ Q1 2026 电话会议（2026-05-11）</summary>
+<div class="body">
+<p style="font-size:13px; line-height:1.7; color:var(--muted); margin:0 0 12px;">
+<strong>管理层</strong>：CEO Jeremy Allaire · CFO Heath Tarbert · COO Elisabeth Carpenter<br/>
+<strong>分析师 Q&amp;A</strong>：Bernstein、JPM、Morgan Stanley、Wells Fargo、Mizuho、Needham 等
       </p>
-      <h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">关键管理层金句（中译）</h4>
-      <ul class="news">
-        <li>"USDC 占链上美元数字货币交易量的 <strong>80%</strong>，同比大幅提升。"<br><span style="color:var(--muted);font-size:11px;">— Jeremy Allaire（CEO）· 强调 USDC 在<strong>真实使用</strong>口径上的份额远高于流通量市占</span></li>
-        <li>"USDC 流通量达 $77B（同比 +28%），<strong>尽管自 2025 年 10 月以来加密资产市场整体下跌 45%</strong>。"<br><span style="color:var(--muted);font-size:11px;">— Heath Tarbert（CFO）· 凸显 USDC 的<strong>反周期增长</strong>属性，与投机性加密资产脱钩</span></li>
-        <li>"本季度储备收益率<strong>降至 3.5%</strong>，反映美联储降息预期已部分定价进来。"<br><span style="color:var(--muted);font-size:11px;">— Tarbert · 首次披露 Q1 季度均值，比 Q4 25 的 3.81% 进一步走低</span></li>
-        <li>"Visa 数据显示 USDC 在<strong>商业交易</strong>中占约 60% 的份额，真实商业交易增速达<strong>数百个百分点</strong>。"<br><span style="color:var(--muted);font-size:11px;">— Allaire · 链上数据 vs. 投机交易的分离，是估值锚切换的关键证据</span></li>
-        <li>"USDC 目前结算<strong>全球 99%+ 的 x402 agentic AI 支付</strong>。"<br><span style="color:var(--muted);font-size:11px;">— Allaire · 首次量化 USDC 在 AI Agent 支付场景的统治地位</span></li>
-        <li>"我们正经历互联网历史上<strong>最大的一次平台转移</strong>—— AI 操作系统与经济操作系统正在融合。"<br><span style="color:var(--muted);font-size:11px;">— Allaire · 平台叙事升级 / Arc + Agent Stack 战略基石</span></li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">战略要点</h4>
-      <ul class="news">
-        <li><span class="date">Arc</span> Presale $222M 完成 @ $3B FDV · 投资方含 BlackRock / Apollo / a16z（领投 $75M）/ ICE / Standard Chartered Ventures</li>
-        <li><span class="date">扩张</span> USDC 全球可及性 + 扩大企业合作（Brex、Deutsche Börse、Visa、Unibanco Itaú、Kraken、Fireblocks 等）</li>
-        <li><span class="date">用例</span> 第三方数据估算含 Solana 后链上量近 $30T</li>
-        <li><span class="date">监管</span> 持续支持 GENIUS Act 实施 + 反对 CLARITY Act 禁止稳定币付息条款</li>
-      </ul>
-      <div class="links" style="margin-top:10px;">
-        <a href="https://www.fool.com/earnings/call-transcripts/2026/05/11/circle-crcl-q1-2026-earnings-transcript/" target="_blank">完整 Transcript (Motley Fool) →</a>
-        <a href="https://seekingalpha.com/article/4902478-circle-internet-group-inc-crcl-q1-2026-earnings-call-transcript" target="_blank">Seeking Alpha →</a>
-      </div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🎙️ Q4 2025 / FY2025 电话会议（2026-02-25）</summary>
-    <div class="body">
-      <h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">关键披露</h4>
-      <ul class="news">
-        <li>Q4 总收入 $770M（+77% YoY）· 调整 EBITDA $167M（+412%）· 利润率 54%</li>
-        <li>Reserve return rate 3.81%，YoY <strong>下降 68bp</strong>，反映 SOFR 下行</li>
-        <li>USDC $75.3B（+72%）· On-platform USDC 突增 <strong>5.6×</strong> 至 $12.5B，占总流通 17%</li>
-        <li>Q4 链上量近 $12T（+247%）— 链上活跃度大幅提升</li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">指引与策略</h4>
-      <ul class="news">
-        <li>不提供详细季度/年度财务指引，仅就重大偏离提示更新（保守披露口径）</li>
-        <li>强调持续投入 Arc 区块链 + CPN（Circle Payments Network）网络建设</li>
-        <li>FY2025 净亏 -$70M 主要源于 IPO 触发的 <strong>$424M 一次性股权激励</strong>（已结清）</li>
-      </ul>
-      <div class="links" style="margin-top:10px;">
-        <a href="https://www.fool.com/earnings/call-transcripts/2026/02/25/circle-crcl-q4-2025-earnings-call-transcript/" target="_blank">Transcript (Motley Fool) →</a>
-        <a href="https://www.benzinga.com/markets/earnings/26/02/50860120/circle-internet-group-q4-2025-earnings-call-transcript" target="_blank">Benzinga →</a>
-      </div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🎙️ Q3 2025 电话会议（2025-11-12）</summary>
-    <div class="body">
-      <h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">关键披露</h4>
-      <ul class="news">
-        <li>Q3 收入 $740M（+66%）· 净利 $214M（+202%）· Adj EBITDA $166M（+78%）</li>
-        <li>USDC $73.7B（<strong>+108% YoY</strong>，年内增速峰值）</li>
-        <li>新合作：<strong>Brex / Deutsche Börse / Finastra / Fireblocks / Hyperliquid / Kraken / Itaú Unibanco / Visa</strong></li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">Arc 区块链首次详细披露</h4>
-      <ul class="news">
-        <li><strong>2025-10-28 Arc Public Testnet 上线</strong>，100+ 机构参与（含 Goldman / Deutsche Bank / Visa / Mastercard / AWS / Anthropic）</li>
-        <li>定位 Layer-1，programmable financial infrastructure for the global economy</li>
-        <li>明确"探索发行 native token 的可能性"（即后来的 ARC 代币）</li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">CPN（Circle Payments Network）进展</h4>
-      <ul class="news">
-        <li>29 家金融机构已 enrolled，55 家审核中，500 家 pipeline</li>
-        <li>自 2025-05 上线以来年化交易量达 <strong>$3.4B</strong></li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">成本指引调整（少见）</h4>
-      <ul class="news">
-        <li>2025 全年运营成本指引上调至 <strong>$495-510M</strong>（原 $475-490M）</li>
-        <li>反映 Arc / CPN 建设投入加大</li>
-      </ul>
-      <div class="links" style="margin-top:10px;">
-        <a href="https://s206.q4cdn.com/265218871/files/doc_financials/2025/q3/Q3-2025-Earnings-Call-Transcript.pdf" target="_blank">官方 Transcript PDF →</a>
-        <a href="https://www.benzinga.com/markets/earnings/25/11/48804625/circle-internet-group-q3-2025-earnings-call-transcript" target="_blank">Benzinga →</a>
-      </div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🎙️ Q2 2025 首次电话会议（2025-08-12，post-IPO）</summary>
-    <div class="body">
-      <ul class="news">
-        <li>IPO 后<strong>首次</strong>公开电话会议，市场关注重点：IPO SBC 影响、Coinbase 续约风险</li>
-        <li>管理层确认 <strong>$424M 一次性股权激励</strong>属一次性项目，不会持续</li>
-        <li>首次披露 CPN（Circle Payments Network）正式上线</li>
-        <li>USDC $61B · 收入 $660M（+62% YoY）</li>
-      </ul>
-      <div class="links" style="margin-top:10px;">
-        <a href="https://investor.circle.com/events-and-presentations/event-details/2025/Circle-Internet-Group-Q2-2025-Earnings-Call/default.aspx" target="_blank">IR 页面 →</a>
-      </div>
-    </div>
-  </details>
-
-  <!-- ▍D. 行业会议 / Fireside -->
-  <h2 class="section-title">🎤 D. 行业会议 / Fireside Chat — 核心要点</h2>
-
-  <details class="expand" open>
-    <summary>🏛️ Bernstein 第 42 届年度战略决策会议（2026-05-28）— Jeremy Allaire fireside</summary>
-    <div class="body">
-      <p style="font-size:12px; color:var(--muted); margin:0 0 12px;">
-        <strong>主持</strong>：Gautam Chhugani（Bernstein 数字资产首席分析师，CRCL 目标价 $190 Outperform） · <strong>主题</strong>：从稳定币到 "Agentic Economy 经济操作系统"
+<h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">关键管理层金句（中译）</h4>
+<ul class="news">
+<li>"USDC 占链上美元数字货币交易量的 <strong>80%</strong>，同比大幅提升。"<br/><span style="color:var(--muted);font-size:11px;">— Jeremy Allaire（CEO）· 强调 USDC 在<strong>真实使用</strong>口径上的份额远高于流通量市占</span></li>
+<li>"USDC 流通量达 $77B（同比 +28%），<strong>尽管自 2025 年 10 月以来加密资产市场整体下跌 45%</strong>。"<br/><span style="color:var(--muted);font-size:11px;">— Heath Tarbert（CFO）· 凸显 USDC 的<strong>反周期增长</strong>属性，与投机性加密资产脱钩</span></li>
+<li>"本季度储备收益率<strong>降至 3.5%</strong>，反映美联储降息预期已部分定价进来。"<br/><span style="color:var(--muted);font-size:11px;">— Tarbert · 首次披露 Q1 季度均值，比 Q4 25 的 3.81% 进一步走低</span></li>
+<li>"Visa 数据显示 USDC 在<strong>商业交易</strong>中占约 60% 的份额，真实商业交易增速达<strong>数百个百分点</strong>。"<br/><span style="color:var(--muted);font-size:11px;">— Allaire · 链上数据 vs. 投机交易的分离，是估值锚切换的关键证据</span></li>
+<li>"USDC 目前结算<strong>全球 99%+ 的 x402 agentic AI 支付</strong>。"<br/><span style="color:var(--muted);font-size:11px;">— Allaire · 首次量化 USDC 在 AI Agent 支付场景的统治地位</span></li>
+<li>"我们正经历互联网历史上<strong>最大的一次平台转移</strong>—— AI 操作系统与经济操作系统正在融合。"<br/><span style="color:var(--muted);font-size:11px;">— Allaire · 平台叙事升级 / Arc + Agent Stack 战略基石</span></li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">战略要点</h4>
+<ul class="news">
+<li><span class="date">Arc</span> Presale $222M 完成 @ $3B FDV · 投资方含 BlackRock / Apollo / a16z（领投 $75M）/ ICE / Standard Chartered Ventures</li>
+<li><span class="date">扩张</span> USDC 全球可及性 + 扩大企业合作（Brex、Deutsche Börse、Visa、Unibanco Itaú、Kraken、Fireblocks 等）</li>
+<li><span class="date">用例</span> 第三方数据估算含 Solana 后链上量近 $30T</li>
+<li><span class="date">监管</span> 持续支持 GENIUS Act 实施 + 反对 CLARITY Act 禁止稳定币付息条款</li>
+</ul>
+<div class="links" style="margin-top:10px;">
+<a href="https://www.fool.com/earnings/call-transcripts/2026/05/11/circle-crcl-q1-2026-earnings-transcript/" target="_blank">完整 Transcript (Motley Fool) →</a>
+<a href="https://seekingalpha.com/article/4902478-circle-internet-group-inc-crcl-q1-2026-earnings-call-transcript" target="_blank">Seeking Alpha →</a>
+</div>
+</div>
+</details>
+<details class="expand">
+<summary>🎙️ Q4 2025 / FY2025 电话会议（2026-02-25）</summary>
+<div class="body">
+<h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">关键披露</h4>
+<ul class="news">
+<li>Q4 总收入 $770M（+77% YoY）· 调整 EBITDA $167M（+412%）· 利润率 54%</li>
+<li>Reserve return rate 3.81%，YoY <strong>下降 68bp</strong>，反映 SOFR 下行</li>
+<li>USDC $75.3B（+72%）· On-platform USDC 突增 <strong>5.6×</strong> 至 $12.5B，占总流通 17%</li>
+<li>Q4 链上量近 $12T（+247%）— 链上活跃度大幅提升</li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">指引与策略</h4>
+<ul class="news">
+<li>不提供详细季度/年度财务指引，仅就重大偏离提示更新（保守披露口径）</li>
+<li>强调持续投入 Arc 区块链 + CPN（Circle Payments Network）网络建设</li>
+<li>FY2025 净亏 -$70M 主要源于 IPO 触发的 <strong>$424M 一次性股权激励</strong>（已结清）</li>
+</ul>
+<div class="links" style="margin-top:10px;">
+<a href="https://www.fool.com/earnings/call-transcripts/2026/02/25/circle-crcl-q4-2025-earnings-call-transcript/" target="_blank">Transcript (Motley Fool) →</a>
+<a href="https://www.benzinga.com/markets/earnings/26/02/50860120/circle-internet-group-q4-2025-earnings-call-transcript" target="_blank">Benzinga →</a>
+</div>
+</div>
+</details>
+<details class="expand">
+<summary>🎙️ Q3 2025 电话会议（2025-11-12）</summary>
+<div class="body">
+<h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">关键披露</h4>
+<ul class="news">
+<li>Q3 收入 $740M（+66%）· 净利 $214M（+202%）· Adj EBITDA $166M（+78%）</li>
+<li>USDC $73.7B（<strong>+108% YoY</strong>，年内增速峰值）</li>
+<li>新合作：<strong>Brex / Deutsche Börse / Finastra / Fireblocks / Hyperliquid / Kraken / Itaú Unibanco / Visa</strong></li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">Arc 区块链首次详细披露</h4>
+<ul class="news">
+<li><strong>2025-10-28 Arc Public Testnet 上线</strong>，100+ 机构参与（含 Goldman / Deutsche Bank / Visa / Mastercard / AWS / Anthropic）</li>
+<li>定位 Layer-1，programmable financial infrastructure for the global economy</li>
+<li>明确"探索发行 native token 的可能性"（即后来的 ARC 代币）</li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">CPN（Circle Payments Network）进展</h4>
+<ul class="news">
+<li>29 家金融机构已 enrolled，55 家审核中，500 家 pipeline</li>
+<li>自 2025-05 上线以来年化交易量达 <strong>$3.4B</strong></li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">成本指引调整（少见）</h4>
+<ul class="news">
+<li>2025 全年运营成本指引上调至 <strong>$495-510M</strong>（原 $475-490M）</li>
+<li>反映 Arc / CPN 建设投入加大</li>
+</ul>
+<div class="links" style="margin-top:10px;">
+<a href="https://s206.q4cdn.com/265218871/files/doc_financials/2025/q3/Q3-2025-Earnings-Call-Transcript.pdf" target="_blank">官方 Transcript PDF →</a>
+<a href="https://www.benzinga.com/markets/earnings/25/11/48804625/circle-internet-group-q3-2025-earnings-call-transcript" target="_blank">Benzinga →</a>
+</div>
+</div>
+</details>
+<details class="expand">
+<summary>🎙️ Q2 2025 首次电话会议（2025-08-12，post-IPO）</summary>
+<div class="body">
+<ul class="news">
+<li>IPO 后<strong>首次</strong>公开电话会议，市场关注重点：IPO SBC 影响、Coinbase 续约风险</li>
+<li>管理层确认 <strong>$424M 一次性股权激励</strong>属一次性项目，不会持续</li>
+<li>首次披露 CPN（Circle Payments Network）正式上线</li>
+<li>USDC $61B · 收入 $660M（+62% YoY）</li>
+</ul>
+<div class="links" style="margin-top:10px;">
+<a href="https://investor.circle.com/events-and-presentations/event-details/2025/Circle-Internet-Group-Q2-2025-Earnings-Call/default.aspx" target="_blank">IR 页面 →</a>
+</div>
+</div>
+</details>
+<!-- ▍D. 行业会议 / Fireside -->
+<h2 class="section-title">🎤 D. 行业会议 / Fireside Chat — 核心要点</h2>
+<details class="expand" open="">
+<summary>🏛️ Bernstein 第 42 届年度战略决策会议（2026-05-28）— Jeremy Allaire fireside</summary>
+<div class="body">
+<p style="font-size:12px; color:var(--muted); margin:0 0 12px;">
+<strong>主持</strong>：Gautam Chhugani（Bernstein 数字资产首席分析师，CRCL 目标价 $190 Outperform） · <strong>主题</strong>：从稳定币到 "Agentic Economy 经济操作系统"
       </p>
-      <h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">① 平台叙事升级 ✦ 核心论点</h4>
-      <ul class="news">
-        <li>"我们正经历<strong>互联网历史上最大的一次平台转移</strong>—— 智能操作系统（AI）与经济活动操作系统（Stablecoin/Arc）正在融合形成新一代互联网协议栈。" — Allaire</li>
-        <li>未来 10 年这种融合将<strong>重塑全球经济系统</strong>，传统支付铁轨服务于人和机构，而 Agentic 软件实体需要全新的可编程经济基础设施。</li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">② Agentic Economy — 第二增长曲线</h4>
-      <ul class="news">
-        <li><strong>x402 标准</strong>（机器对机器小额支付协议）：USDC 目前结算<strong>全球 99%+ 的 x402 agentic 支付</strong></li>
-        <li>同日 (5/11) 推出 <strong>Circle Agent Stack</strong>：含 Circle CLI、Agent Wallets、Agent Marketplace、Nanopayments（由 Circle Gateway 驱动）</li>
-        <li>AI Agent 将发起数百万笔小额、实时交易 → USDC 的<strong>低成本、即时清算</strong>属性是天然适配</li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">③ Arc 区块链 = "互联网经济操作系统"</h4>
-      <ul class="news">
-        <li>定位：企业级 L1，<strong>不只是 USDC 公链</strong>，而是 RWA + Agentic + 跨境结算的核心基础设施</li>
-        <li>Testnet 100+ 机构验证（Goldman / Visa / Mastercard / AWS / Anthropic 等），<strong>2026 夏季主网上线</strong></li>
-        <li>$3B FDV、$222M 融资为下一阶段建设储备弹药；不排除未来 ARC 代币 TGE 释放更多价值</li>
-      </ul>
-      <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">④ 监管与竞争格局回应</h4>
-      <ul class="news">
-        <li>GENIUS Act 是<strong>Circle 主场</strong>：合规壁垒、透明储备实践、机构信任已先发；CLARITY Act 反对禁止稳定币付息条款</li>
-        <li>对 Tether USAT 评价：USAT 受 OCC 监管框架约束，<strong>合规成本与 Circle 持平</strong>，先发优势已在 USDC 一边</li>
-        <li>对银行系稳定币：欢迎竞争，但<strong>开放网络的网络效应</strong> > 单银行品牌（类比 Visa vs. 单家银行卡）</li>
-      </ul>
-      <div class="links" style="margin-top:10px;">
-        <a href="https://investor.circle.com/events-and-presentations/event-details/2026/Bernstein-Conferences-42nd-Annual-Strategic-Decisions-Conference/default.aspx" target="_blank">IR 官方回放 →</a>
-        <a href="https://www.coindesk.com/markets/2026/03/10/circle-could-rally-60-more-on-stablecoin-adoption-ai-agentic-finance-bernstein-says" target="_blank">Bernstein 研报背景 →</a>
-      </div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🏛️ Canaccord Genuity 第 6 届数字资产研讨会（2026-03-11）— Jeremy Allaire fireside</summary>
-    <div class="body">
-      <p style="font-size:12px; color:var(--muted); margin:0 0 12px;">
-        <strong>会议</strong>：Canaccord Genuity 6th Annual Digital Assets Virtual Symposium · 10:00 AM ET
+<h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">① 平台叙事升级 ✦ 核心论点</h4>
+<ul class="news">
+<li>"我们正经历<strong>互联网历史上最大的一次平台转移</strong>—— 智能操作系统（AI）与经济活动操作系统（Stablecoin/Arc）正在融合形成新一代互联网协议栈。" — Allaire</li>
+<li>未来 10 年这种融合将<strong>重塑全球经济系统</strong>，传统支付铁轨服务于人和机构，而 Agentic 软件实体需要全新的可编程经济基础设施。</li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">② Agentic Economy — 第二增长曲线</h4>
+<ul class="news">
+<li><strong>x402 标准</strong>（机器对机器小额支付协议）：USDC 目前结算<strong>全球 99%+ 的 x402 agentic 支付</strong></li>
+<li>同日 (5/11) 推出 <strong>Circle Agent Stack</strong>：含 Circle CLI、Agent Wallets、Agent Marketplace、Nanopayments（由 Circle Gateway 驱动）</li>
+<li>AI Agent 将发起数百万笔小额、实时交易 → USDC 的<strong>低成本、即时清算</strong>属性是天然适配</li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">③ Arc 区块链 = "互联网经济操作系统"</h4>
+<ul class="news">
+<li>定位：企业级 L1，<strong>不只是 USDC 公链</strong>，而是 RWA + Agentic + 跨境结算的核心基础设施</li>
+<li>Testnet 100+ 机构验证（Goldman / Visa / Mastercard / AWS / Anthropic 等），<strong>2026 夏季主网上线</strong></li>
+<li>$3B FDV、$222M 融资为下一阶段建设储备弹药；不排除未来 ARC 代币 TGE 释放更多价值</li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">④ 监管与竞争格局回应</h4>
+<ul class="news">
+<li>GENIUS Act 是<strong>Circle 主场</strong>：合规壁垒、透明储备实践、机构信任已先发；CLARITY Act 反对禁止稳定币付息条款</li>
+<li>对 Tether USAT 评价：USAT 受 OCC 监管框架约束，<strong>合规成本与 Circle 持平</strong>，先发优势已在 USDC 一边</li>
+<li>对银行系稳定币：欢迎竞争，但<strong>开放网络的网络效应</strong> &gt; 单银行品牌（类比 Visa vs. 单家银行卡）</li>
+</ul>
+<div class="links" style="margin-top:10px;">
+<a href="https://investor.circle.com/events-and-presentations/event-details/2026/Bernstein-Conferences-42nd-Annual-Strategic-Decisions-Conference/default.aspx" target="_blank">IR 官方回放 →</a>
+<a href="https://www.coindesk.com/markets/2026/03/10/circle-could-rally-60-more-on-stablecoin-adoption-ai-agentic-finance-bernstein-says" target="_blank">Bernstein 研报背景 →</a>
+</div>
+</div>
+</details>
+<details class="expand">
+<summary>🏛️ Canaccord Genuity 第 6 届数字资产研讨会（2026-03-11）— Jeremy Allaire fireside</summary>
+<div class="body">
+<p style="font-size:12px; color:var(--muted); margin:0 0 12px;">
+<strong>会议</strong>：Canaccord Genuity 6th Annual Digital Assets Virtual Symposium · 10:00 AM ET
       </p>
-      <h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">核心要点</h4>
-      <ul class="news">
-        <li><strong>USDC 应用场景拓展</strong>：从交易媒介向<strong>真实支付、跨境汇款、企业财资</strong>渗透</li>
-        <li>强调 Circle 的"<strong>实用性奖励</strong>"理念：激励应基于<strong>实际交易和支付量</strong>，而非被动持有（暗示反对持币付息模式）</li>
-        <li>提及 USDC 在拉美（Itaú Unibanco 合作）、东南亚（Sasai Fintech 合作）的本地化推进</li>
-        <li>合规叙事：与 Tether 形成对比 — Circle 是<strong>"Stablecoin Are Not Crypto"</strong>立场（即定位为支付/结算基础设施而非投机资产）</li>
-      </ul>
-      <div class="links" style="margin-top:10px;">
-        <a href="https://seekingalpha.com/article/4881156-circle-internet-group-inc-crcl-presents-at-6th-annual-digital-assets-symposium-transcript" target="_blank">Transcript (Seeking Alpha) →</a>
-        <a href="https://www.canaccordgenuity.com/capital-markets/events-and-conferences/6th-annual-digital-assets-symposium/" target="_blank">会议主页 →</a>
-      </div>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>🗣️ 其他重要公开发言（精选）</summary>
-    <div class="body">
-      <ul class="news">
-        <li><span class="date">2026-Q1</span> Sasai Fintech 合作公告 + 非洲市场 USDC 推广 · <a class="source-link" href="https://www.businesswire.com/news/home/20260324573417/en/Circle-and-Sasai-Fintech-Collaborate-to-Expand-Access-to-USDC-in-Africa/" target="_blank">↗ Businesswire</a></li>
-        <li><span class="date">2026-05</span> 推出 Circle Agent Stack（与 Q1 财报同期）— Circle 进入 Agentic AI Infra 主题 · <a class="source-link" href="https://www.circle.com/pressroom/circle-launches-ai-infrastructure-to-power-the-agentic-economy" target="_blank">↗ 官方</a></li>
-        <li><span class="date">2026-05-28</span> Circle × Nium 全球支付结算合作发布 · <a class="source-link" href="https://www.pymnts.com/partnerships/2026/circle-and-nium-launch-stablecoin-settlement-partnership/" target="_blank">↗ PYMNTS</a></li>
-        <li><span class="date">2026-Q1</span> CFO Heath Tarbert 多场 sell-side NDR：重点解释利率敏感性、Arc 经济模型、Coinbase 续约预期</li>
-      </ul>
-    </div>
-  </details>
-
-  <details class="expand">
-    <summary>📅 已宣布的未来会议日历</summary>
-    <div class="body">
-      <ul class="news">
-        <li><span class="date">2026-08 上旬</span> Q2 2026 财报电话会议（预计）</li>
-        <li><span class="date">2026 Q3</span> Goldman Sachs Communacopia + Technology Conference（潜在）</li>
-        <li><span class="date">2026 Q4</span> JPM Tech / Fintech Forum（潜在）</li>
-        <li><span class="date">2026 夏</span> Arc 主网上线发布会（关键 催化）</li>
-      </ul>
-    </div>
-  </details>
-
-  <!-- ▍E. 关键披露摘要 -->
-  <h2 class="section-title">📜 E. 10-K / 8-K 关键披露摘要</h2>
-  <div class="card">
-    <h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">储备结构（10-K 2025 + 月度披露）</h4>
-    <ul class="news">
-      <li>~87% USDC 储备在 Circle Reserve Fund（Rule 2a-7 政府货币市场基金）</li>
-      <li>BlackRock 管理 + BNY Mellon 托管；每周三披露持仓 ISIN/CUSIP 级别</li>
-      <li>剩余 ~13% 为受监管银行现金（multiple G-SIBs）</li>
-    </ul>
-    <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">Coinbase 分销协议（10-K 披露 + Coinbase 10-K 互证）</h4>
-    <ul class="news">
-      <li>Coinbase 平台上 USDC 储备利息 <strong>100% 归 Coinbase</strong></li>
-      <li>其他渠道（Binance、自有钱包、CCTP、CEX 之外）<strong>50/50 分账</strong></li>
-      <li>2024 年 Circle 向 Coinbase 支付 <strong>$908M</strong>（占总分销成本 90%）</li>
-      <li>该协议构成 Circle 长期最大单一成本项，续约条款是关键观察点</li>
-    </ul>
-    <h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">利率敏感性（S-1 招股披露）</h4>
-    <ul class="news">
-      <li>+200bp → 储备收入 +$1,235M / 分销费 +$631M / 净影响 +$604M</li>
-      <li>-200bp → 储备收入 -$1,235M / 分销费 -$631M / 净影响 -$604M</li>
-      <li>基于 2025/6 数据 ($61B 流通)，当前流通量 $77B → 敏感性放大 ~1.25×</li>
-    </ul>
-  </div>
-
+<h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">核心要点</h4>
+<ul class="news">
+<li><strong>USDC 应用场景拓展</strong>：从交易媒介向<strong>真实支付、跨境汇款、企业财资</strong>渗透</li>
+<li>强调 Circle 的"<strong>实用性奖励</strong>"理念：激励应基于<strong>实际交易和支付量</strong>，而非被动持有（暗示反对持币付息模式）</li>
+<li>提及 USDC 在拉美（Itaú Unibanco 合作）、东南亚（Sasai Fintech 合作）的本地化推进</li>
+<li>合规叙事：与 Tether 形成对比 — Circle 是<strong>"Stablecoin Are Not Crypto"</strong>立场（即定位为支付/结算基础设施而非投机资产）</li>
+</ul>
+<div class="links" style="margin-top:10px;">
+<a href="https://seekingalpha.com/article/4881156-circle-internet-group-inc-crcl-presents-at-6th-annual-digital-assets-symposium-transcript" target="_blank">Transcript (Seeking Alpha) →</a>
+<a href="https://www.canaccordgenuity.com/capital-markets/events-and-conferences/6th-annual-digital-assets-symposium/" target="_blank">会议主页 →</a>
+</div>
+</div>
+</details>
+<details class="expand">
+<summary>🗣️ 其他重要公开发言（精选）</summary>
+<div class="body">
+<ul class="news">
+<li><span class="date">2026-Q1</span> Sasai Fintech 合作公告 + 非洲市场 USDC 推广 · <a class="source-link" href="https://www.businesswire.com/news/home/20260324573417/en/Circle-and-Sasai-Fintech-Collaborate-to-Expand-Access-to-USDC-in-Africa/" target="_blank">↗ Businesswire</a></li>
+<li><span class="date">2026-05</span> 推出 Circle Agent Stack（与 Q1 财报同期）— Circle 进入 Agentic AI Infra 主题 · <a class="source-link" href="https://www.circle.com/pressroom/circle-launches-ai-infrastructure-to-power-the-agentic-economy" target="_blank">↗ 官方</a></li>
+<li><span class="date">2026-05-28</span> Circle × Nium 全球支付结算合作发布 · <a class="source-link" href="https://www.pymnts.com/partnerships/2026/circle-and-nium-launch-stablecoin-settlement-partnership/" target="_blank">↗ PYMNTS</a></li>
+<li><span class="date">2026-Q1</span> CFO Heath Tarbert 多场 sell-side NDR：重点解释利率敏感性、Arc 经济模型、Coinbase 续约预期</li>
+</ul>
+</div>
+</details>
+<details class="expand">
+<summary>📅 已宣布的未来会议日历</summary>
+<div class="body">
+<ul class="news">
+<li><span class="date">2026-08 上旬</span> Q2 2026 财报电话会议（预计）</li>
+<li><span class="date">2026 Q3</span> Goldman Sachs Communacopia + Technology Conference（潜在）</li>
+<li><span class="date">2026 Q4</span> JPM Tech / Fintech Forum（潜在）</li>
+<li><span class="date">2026 夏</span> Arc 主网上线发布会（关键 催化）</li>
+</ul>
+</div>
+</details>
+<!-- ▍E. 关键披露摘要 -->
+<h2 class="section-title">📜 E. 10-K / 8-K 关键披露摘要</h2>
+<div class="card">
+<h4 style="margin:6px 0 8px;font-size:13px;color:var(--accent-2);">储备结构（10-K 2025 + 月度披露）</h4>
+<ul class="news">
+<li>~87% USDC 储备在 Circle Reserve Fund（Rule 2a-7 政府货币市场基金）</li>
+<li>BlackRock 管理 + BNY Mellon 托管；每周三披露持仓 ISIN/CUSIP 级别</li>
+<li>剩余 ~13% 为受监管银行现金（multiple G-SIBs）</li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">Coinbase 分销协议（10-K 披露 + Coinbase 10-K 互证）</h4>
+<ul class="news">
+<li>Coinbase 平台上 USDC 储备利息 <strong>100% 归 Coinbase</strong></li>
+<li>其他渠道（Binance、自有钱包、CCTP、CEX 之外）<strong>50/50 分账</strong></li>
+<li>2024 年 Circle 向 Coinbase 支付 <strong>$908M</strong>（占总分销成本 90%）</li>
+<li>该协议构成 Circle 长期最大单一成本项，续约条款是关键观察点</li>
+</ul>
+<h4 style="margin:14px 0 8px;font-size:13px;color:var(--accent-2);">利率敏感性（S-1 招股披露）</h4>
+<ul class="news">
+<li>+200bp → 储备收入 +$1,235M / 分销费 +$631M / 净影响 +$604M</li>
+<li>-200bp → 储备收入 -$1,235M / 分销费 -$631M / 净影响 -$604M</li>
+<li>基于 2025/6 数据 ($61B 流通)，当前流通量 $77B → 敏感性放大 ~1.25×</li>
+</ul>
+</div>
 </section>
-
 <!-- ============ 7. 每日追踪 ============ -->
 <section class="panel" id="daily">
-  <div class="card">
-    <h3>📋 每日追踪清单（按天自动重置，点击勾选自动保存）</h3>
-    <ul class="checklist" id="checklist">
-      <li><input type="checkbox" data-key="px"><span>CRCL 股价 / 成交量 / IV 变化（Yahoo Finance / TradingView）</span></li>
-      <li><input type="checkbox" data-key="usdc"><span>USDC 流通量变化（顶部 KPI 已 live 接入 DefiLlama）</span></li>
-      <li><input type="checkbox" data-key="usdt"><span>USDT 市占率 & 稳定币总规模（DefiLlama Stablecoins）</span></li>
-      <li><input type="checkbox" data-key="fed"><span>美联储利率预期 / CME FedWatch（影响储备收益）</span></li>
-      <li><input type="checkbox" data-key="news"><span>Circle / Arc / GENIUS Act / CLARITY 新闻（CoinDesk / The Block）</span></li>
-      <li><input type="checkbox" data-key="competitor"><span>Tether USAT、PYUSD、银行系稳定币动态</span></li>
-      <li><input type="checkbox" data-key="onchain"><span>USDC 链上交易量（Artemis / Visa Stablecoin Dashboard）</span></li>
-      <li><input type="checkbox" data-key="analyst"><span>分析师评级 / 目标价变动（Benzinga / TipRanks）</span></li>
-      <li><input type="checkbox" data-key="sec"><span>SEC EDGAR 是否有新 8-K（公司公告）</span></li>
-    </ul>
-    <div class="links" style="margin-top:16px;">
-      <a href="https://finance.yahoo.com/quote/CRCL/" target="_blank">Yahoo Finance →</a>
-      <a href="https://defillama.com/stablecoins" target="_blank">DefiLlama 稳定币 →</a>
-      <a href="https://www.circle.com/transparency" target="_blank">Circle Transparency →</a>
-      <a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" target="_blank">CME FedWatch →</a>
-      <a href="https://artemis.xyz/" target="_blank">Artemis 链上数据 →</a>
-      <a href="https://www.benzinga.com/quote/CRCL/analyst-ratings" target="_blank">Benzinga 评级 →</a>
-      <a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&CIK=0001876042" target="_blank">SEC EDGAR →</a>
-      <a href="https://www.tikr.com/stock/CRCL/transcripts" target="_blank">Earnings Transcripts →</a>
-    </div>
-  </div>
-
-  <div class="card" style="margin-top:14px;">
-    <h3>🗓️ 重要日历（2026）</h3>
-    <ul class="news">
-      <li><span class="date">每周三</span> DefiLlama 稳定币周报 / USDC 净流入 / Circle 储备 attestation</li>
-      <li><span class="date">每月初</span> Circle 月度储备审计报告（Deloitte 出具）</li>
-      <li><span class="date">2026-06-17</span> FOMC 议息会议 #1（关注降息路径）</li>
-      <li><span class="date">2026-07-30</span> FOMC 议息会议 #2</li>
-      <li><span class="date">2026-08 上旬</span> Circle Q2 2026 财报（预计）</li>
-      <li><span class="date">2026 夏</span> Arc 区块链主网上线（关键催化）</li>
-      <li><span class="date">2026-09-17</span> FOMC 议息会议 #3</li>
-      <li><span class="date">2026-11 上旬</span> Circle Q3 2026 财报</li>
-    </ul>
-  </div>
-
-  <div class="card" style="margin-top:14px;">
-    <h3>📚 推荐研究资源</h3>
-    <ul class="news">
-      <li><a href="https://insights4vc.substack.com/p/inside-circles-stablecoin-economics" target="_blank" style="color:var(--accent);">Inside Circle's Stablecoin Economics</a> — VC 深度拆解</li>
-      <li><a href="https://research.artemis.ai/p/circle-internet-group-crcl" target="_blank" style="color:var(--accent);">Artemis: Circle Big Fundamentals</a> — 链上数据 + 基本面</li>
-      <li><a href="https://www.circle.com/reports/internet-financial-system/arc-and-circle-infrastructure" target="_blank" style="color:var(--accent);">Circle: Internet Financial System Report</a> — Arc 官方白皮书</li>
-    </ul>
-  </div>
+<div class="card">
+<h3>📋 每日追踪清单（按天自动重置，点击勾选自动保存）</h3>
+<ul class="checklist" id="checklist">
+<li><input data-key="px" type="checkbox"/><span>CRCL 股价 / 成交量 / IV 变化（Yahoo Finance / TradingView）</span></li>
+<li><input data-key="usdc" type="checkbox"/><span>USDC 流通量变化（顶部 KPI 已 live 接入 DefiLlama）</span></li>
+<li><input data-key="usdt" type="checkbox"/><span>USDT 市占率 &amp; 稳定币总规模（DefiLlama Stablecoins）</span></li>
+<li><input data-key="fed" type="checkbox"/><span>美联储利率预期 / CME FedWatch（影响储备收益）</span></li>
+<li><input data-key="news" type="checkbox"/><span>Circle / Arc / GENIUS Act / CLARITY 新闻（CoinDesk / The Block）</span></li>
+<li><input data-key="competitor" type="checkbox"/><span>Tether USAT、PYUSD、银行系稳定币动态</span></li>
+<li><input data-key="onchain" type="checkbox"/><span>USDC 链上交易量（Artemis / Visa Stablecoin Dashboard）</span></li>
+<li><input data-key="analyst" type="checkbox"/><span>分析师评级 / 目标价变动（Benzinga / TipRanks）</span></li>
+<li><input data-key="sec" type="checkbox"/><span>SEC EDGAR 是否有新 8-K（公司公告）</span></li>
+</ul>
+<div class="links" style="margin-top:16px;">
+<a href="https://finance.yahoo.com/quote/CRCL/" target="_blank">Yahoo Finance →</a>
+<a href="https://defillama.com/stablecoins" target="_blank">DefiLlama 稳定币 →</a>
+<a href="https://www.circle.com/transparency" target="_blank">Circle Transparency →</a>
+<a href="https://www.cmegroup.com/markets/interest-rates/cme-fedwatch-tool.html" target="_blank">CME FedWatch →</a>
+<a href="https://artemis.xyz/" target="_blank">Artemis 链上数据 →</a>
+<a href="https://www.benzinga.com/quote/CRCL/analyst-ratings" target="_blank">Benzinga 评级 →</a>
+<a href="https://www.sec.gov/cgi-bin/browse-edgar?action=getcompany&amp;CIK=0001876042" target="_blank">SEC EDGAR →</a>
+<a href="https://www.tikr.com/stock/CRCL/transcripts" target="_blank">Earnings Transcripts →</a>
+</div>
+</div>
+<div class="card" style="margin-top:14px;">
+<h3>🗓️ 重要日历（2026）</h3>
+<ul class="news">
+<li><span class="date">每周三</span> DefiLlama 稳定币周报 / USDC 净流入 / Circle 储备 attestation</li>
+<li><span class="date">每月初</span> Circle 月度储备审计报告（Deloitte 出具）</li>
+<li><span class="date">2026-06-17</span> FOMC 议息会议 #1（关注降息路径）</li>
+<li><span class="date">2026-07-30</span> FOMC 议息会议 #2</li>
+<li><span class="date">2026-08 上旬</span> Circle Q2 2026 财报（预计）</li>
+<li><span class="date">2026 夏</span> Arc 区块链主网上线（关键催化）</li>
+<li><span class="date">2026-09-17</span> FOMC 议息会议 #3</li>
+<li><span class="date">2026-11 上旬</span> Circle Q3 2026 财报</li>
+</ul>
+</div>
+<div class="card" style="margin-top:14px;">
+<h3>📚 推荐研究资源</h3>
+<ul class="news">
+<li><a href="https://insights4vc.substack.com/p/inside-circles-stablecoin-economics" style="color:var(--accent);" target="_blank">Inside Circle's Stablecoin Economics</a> — VC 深度拆解</li>
+<li><a href="https://research.artemis.ai/p/circle-internet-group-crcl" style="color:var(--accent);" target="_blank">Artemis: Circle Big Fundamentals</a> — 链上数据 + 基本面</li>
+<li><a href="https://www.circle.com/reports/internet-financial-system/arc-and-circle-infrastructure" style="color:var(--accent);" target="_blank">Circle: Internet Financial System Report</a> — Arc 官方白皮书</li>
+</ul>
+</div>
 </section>
-
 <footer>
-  数据来源：国投证券非银行业财务模型 · Circle Q1/Q3/Q4 2025 & Q1 2026 财报 · SEC 10-K 2025 · Wall St 共识（21 位分析师） · DefiLlama Live API · Visa Onchain Analytics · CoinDesk / TIKR / TheStreet<br>
+  数据来源：国投证券非银行业财务模型 · Circle Q1/Q3/Q4 2025 &amp; Q1 2026 财报 · SEC 10-K 2025 · Wall St 共识（21 位分析师） · DefiLlama Live API · Visa Onchain Analytics · CoinDesk / TIKR / TheStreet<br/>
   ⚠️ 本仪表盘仅供个人追踪研究使用，<strong>不构成投资建议</strong>。Live 数据通过 DefiLlama 公开 API 实时获取；股价 / 财务数据为快照（更新 2026-05-29）。
 </footer>
-
 <script>
 // ========== Tab 切换 ==========
 const tabs = document.querySelectorAll('.tab-btn');
