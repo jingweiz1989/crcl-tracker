@@ -201,8 +201,8 @@
 <!-- 顶部 KPI -->
 <div class="grid cols-5">
 <div class="card"><h3>当前股价</h3>
-<div class="kpi">$66.14 <span class="delta-up" style="font-size:14px;">+4.97%</span></div>
-<div class="kpi-sub">2026-07-10 收盘 · 自动更新 2026-07-13</div>
+<div class="kpi">$62.93 <span class="delta-down" style="font-size:14px;">-4.85%</span></div>
+<div class="kpi-sub">2026-07-13 收盘 · 自动更新 2026-07-14</div>
 </div>
 <div class="card"><h3>市值</h3>
 <div class="kpi">$26.4 B</div>
@@ -213,8 +213,8 @@
 <div class="kpi-sub" id="usdcLiveSub">DefiLlama 实时 · 自动刷新 2026-06-04</div>
 </div>
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-<div class="kpi" id="totalStableLive">$312 B</div>
-<div class="kpi-sub" id="totalStableSub">USDC 23.6% · USDT 59.1%</div>
+<div class="kpi" id="totalStableLive">$311 B</div>
+<div class="kpi-sub" id="totalStableSub">USDC 23.6% · USDT 59.2%</div>
 </div>
 <div class="card"><h3>分析师共识</h3>
 <div class="kpi">Buy</div>
@@ -646,7 +646,7 @@
 <section class="panel" id="market">
 <div class="grid cols-4">
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-<div class="kpi" id="totalStableLive2">$312 B</div>
+<div class="kpi" id="totalStableLive2">$311 B</div>
 <div class="kpi-sub">过去 12 月 +47%</div>
 </div>
 <div class="card"><h3>USDT 流通 <span class="live">LIVE</span></h3>
@@ -739,7 +739,7 @@
 <h2 class="section-title">₿ 加密市场环境（与 Circle 周期高度相关）</h2>
 <div class="grid cols-4">
 <div class="card"><h3>BTC 现价</h3>
-<div class="kpi">~$63.7K</div>
+<div class="kpi">~$62.2K</div>
 <div class="kpi-sub">距 ATH $126K <span class="neg">-42%</span> · 2025/10/06</div>
 </div>
 <div class="card"><h3>BTC 市值</h3>
@@ -1783,7 +1783,6 @@ new Chart(document.getElementById('usdcShareChart'), {
 // CRCL 日线 OHLCV（2026-01-22 → 2026-05-28，89 个交易日）
 // Source: stockanalysis.com
 const ohlcv = [
-  ["2026-01-12",81.14,83.12,79.85,82.9,6863200],
   ["2026-01-13",83.24,84.28,80.29,83.46,8436100],
   ["2026-01-14",84.99,88.46,81.75,84.8,14373600],
   ["2026-01-15",83.47,83.79,76.11,76.6,16933700],
@@ -1906,7 +1905,8 @@ const ohlcv = [
   ["2026-07-07",67.75,69.05,64.58,65.15,8443800],
   ["2026-07-08",64.19,64.48,61.88,64.07,8525600],
   ["2026-07-09",62.95,64.8,61.67,63.01,9366300],
-  ["2026-07-10",70.66,72.86,65.07,66.14,36672200]
+  ["2026-07-10",70.66,72.86,65.07,66.14,36672200],
+  ["2026-07-13",64.42,66.1,62.7,62.93,8082424]
 ];
 
 // 技术指标计算
