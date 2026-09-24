@@ -201,15 +201,15 @@
 <!-- 顶部 KPI -->
 <div class="grid cols-5">
 <div class="card"><h3>当前股价</h3>
-<div class="kpi">$92.54 <span class="delta-down" style="font-size:14px;">-2.06%</span></div>
-<div class="kpi-sub">2026-09-23 收盘 · 自动更新 2026-09-24</div>
+<div class="kpi">$94.59 <span class="delta-up" style="font-size:14px;">+0.11%</span></div>
+<div class="kpi-sub">2026-09-22 收盘 · 自动更新 2026-09-24</div>
 </div>
 <div class="card"><h3>市值</h3>
 <div class="kpi">$26.4 B</div>
 <div class="kpi-sub">流通股 ~248.6M · EV ≈ $25.2B</div>
 </div>
 <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-<div class="kpi" id="usdcLive">$75.1 B</div>
+<div class="kpi" id="usdcLive">$75.3 B</div>
 <div class="kpi-sub" id="usdcLiveSub">DefiLlama 实时 · 自动刷新 2026-06-04</div>
 </div>
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
@@ -654,7 +654,7 @@
 <div class="kpi-sub">市占 ~58.8% · 仍领先</div>
 </div>
 <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-<div class="kpi" id="usdcLive2">$75.1 B</div>
+<div class="kpi" id="usdcLive2">$75.3 B</div>
 <div class="kpi-sub">市占 ~24% · GENIUS Act 受益</div>
 </div>
 <div class="card"><h3>3M 美债收益率</h3>
@@ -739,7 +739,7 @@
 <h2 class="section-title">₿ 加密市场环境（与 Circle 周期高度相关）</h2>
 <div class="grid cols-4">
 <div class="card"><h3>BTC 现价</h3>
-<div class="kpi">~$84.2K</div>
+<div class="kpi">~$84.4K</div>
 <div class="kpi-sub">距 ATH $126K <span class="neg">-42%</span> · 2025/10/06</div>
 </div>
 <div class="card"><h3>BTC 市值</h3>
@@ -1783,7 +1783,6 @@ new Chart(document.getElementById('usdcShareChart'), {
 // CRCL 日线 OHLCV（2026-01-22 → 2026-05-28，89 个交易日）
 // Source: stockanalysis.com
 const ohlcv = [
-  ["2026-03-23",124.15,127.48,121.32,126.64,15857900],
   ["2026-03-24",126.35,127.08,98.31,101.17,57254200],
   ["2026-03-25",106.77,110.25,101.6,103.86,22176500],
   ["2026-03-26",101.91,103.55,97.31,98.27,15672000],
@@ -1909,7 +1908,7 @@ const ohlcv = [
   ["2026-09-17",83.0,85.95,81.51,85.09,14259300],
   ["2026-09-18",87.4,92.55,87.02,91.78,30537000],
   ["2026-09-21",98.09,99.97,93.12,94.49,16512400],
-  ["2026-09-23",93.02,97.43,91.82,92.54,8096780]
+  ["2026-09-22",96.98,97.56,93.05,94.59,12448000]
 ];
 
 // 技术指标计算
