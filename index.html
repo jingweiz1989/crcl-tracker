@@ -201,20 +201,20 @@
 <!-- 顶部 KPI -->
 <div class="grid cols-5">
 <div class="card"><h3>当前股价</h3>
-<div class="kpi">$84.51 <span class="delta-up" style="font-size:14px;">+4.54%</span></div>
-<div class="kpi-sub">2026-10-09 收盘 · 自动更新 2026-10-12</div>
+<div class="kpi">$83.87 <span class="delta-down" style="font-size:14px;">-0.76%</span></div>
+<div class="kpi-sub">2026-10-12 收盘 · 自动更新 2026-10-13</div>
 </div>
 <div class="card"><h3>市值</h3>
 <div class="kpi">$26.4 B</div>
 <div class="kpi-sub">流通股 ~248.6M · EV ≈ $25.2B</div>
 </div>
 <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-<div class="kpi" id="usdcLive">$73.1 B</div>
+<div class="kpi" id="usdcLive">$72.8 B</div>
 <div class="kpi-sub" id="usdcLiveSub">DefiLlama 实时 · 自动刷新 2026-06-04</div>
 </div>
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
 <div class="kpi" id="totalStableLive">$313 B</div>
-<div class="kpi-sub" id="totalStableSub">USDC 23.4% · USDT 58.9%</div>
+<div class="kpi-sub" id="totalStableSub">USDC 23.3% · USDT 58.8%</div>
 </div>
 <div class="card"><h3>分析师共识</h3>
 <div class="kpi">Buy</div>
@@ -654,7 +654,7 @@
 <div class="kpi-sub">市占 ~58.8% · 仍领先</div>
 </div>
 <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-<div class="kpi" id="usdcLive2">$73.1 B</div>
+<div class="kpi" id="usdcLive2">$72.8 B</div>
 <div class="kpi-sub">市占 ~24% · GENIUS Act 受益</div>
 </div>
 <div class="card"><h3>3M 美债收益率</h3>
@@ -739,7 +739,7 @@
 <h2 class="section-title">₿ 加密市场环境（与 Circle 周期高度相关）</h2>
 <div class="grid cols-4">
 <div class="card"><h3>BTC 现价</h3>
-<div class="kpi">~$83.8K</div>
+<div class="kpi">~$82.7K</div>
 <div class="kpi-sub">距 ATH $126K <span class="neg">-42%</span> · 2025/10/06</div>
 </div>
 <div class="card"><h3>BTC 市值</h3>
@@ -1783,7 +1783,6 @@ new Chart(document.getElementById('usdcShareChart'), {
 // CRCL 日线 OHLCV（2026-01-22 → 2026-05-28，89 个交易日）
 // Source: stockanalysis.com
 const ohlcv = [
-  ["2026-04-10",88.05,90.33,84.91,88.04,9369400],
   ["2026-04-13",86.34,98.68,86.27,98.68,13915400],
   ["2026-04-14",102.26,110.51,101.41,105.49,17543400],
   ["2026-04-15",107.58,108.7,102.93,105.52,10641600],
@@ -1909,7 +1908,8 @@ const ohlcv = [
   ["2026-10-06",83.8,86.74,83.11,84.13,7337900],
   ["2026-10-07",80.65,81.37,79.55,80.84,8920200],
   ["2026-10-08",79.92,81.46,78.88,80.84,9934600],
-  ["2026-10-09",82.14,87.6,80.4,84.51,12975700]
+  ["2026-10-09",82.14,87.6,80.4,84.51,12975700],
+  ["2026-10-12",83.51,85.81,82.4,83.87,7550205]
 ];
 
 // 技术指标计算
