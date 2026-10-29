@@ -201,8 +201,8 @@
 <!-- 顶部 KPI -->
 <div class="grid cols-5">
 <div class="card"><h3>当前股价</h3>
-<div class="kpi">$80.44 <span class="delta-down" style="font-size:14px;">-1.40%</span></div>
-<div class="kpi-sub">2026-10-28 收盘 · 自动更新 2026-10-29</div>
+<div class="kpi">$81.58 <span class="delta-up" style="font-size:14px;">+2.18%</span></div>
+<div class="kpi-sub">2026-10-27 收盘 · 自动更新 2026-10-29</div>
 </div>
 <div class="card"><h3>市值</h3>
 <div class="kpi">$26.4 B</div>
@@ -213,7 +213,7 @@
 <div class="kpi-sub" id="usdcLiveSub">DefiLlama 实时 · 自动刷新 2026-06-04</div>
 </div>
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-<div class="kpi" id="totalStableLive">$303 B</div>
+<div class="kpi" id="totalStableLive">$302 B</div>
 <div class="kpi-sub" id="totalStableSub">USDC 23.6% · USDT 59.9%</div>
 </div>
 <div class="card"><h3>分析师共识</h3>
@@ -646,7 +646,7 @@
 <section class="panel" id="market">
 <div class="grid cols-4">
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-<div class="kpi" id="totalStableLive2">$303 B</div>
+<div class="kpi" id="totalStableLive2">$302 B</div>
 <div class="kpi-sub">过去 12 月 +47%</div>
 </div>
 <div class="card"><h3>USDT 流通 <span class="live">LIVE</span></h3>
@@ -739,7 +739,7 @@
 <h2 class="section-title">₿ 加密市场环境（与 Circle 周期高度相关）</h2>
 <div class="grid cols-4">
 <div class="card"><h3>BTC 现价</h3>
-<div class="kpi">~$81.3K</div>
+<div class="kpi">~$80.8K</div>
 <div class="kpi-sub">距 ATH $126K <span class="neg">-42%</span> · 2025/10/06</div>
 </div>
 <div class="card"><h3>BTC 市值</h3>
@@ -1783,7 +1783,6 @@ new Chart(document.getElementById('usdcShareChart'), {
 // CRCL 日线 OHLCV（2026-01-22 → 2026-05-28，89 个交易日）
 // Source: stockanalysis.com
 const ohlcv = [
-  ["2026-04-28",92.5,95.39,92.26,94.35,6305300],
   ["2026-04-29",93.55,96.27,90.19,95.56,8599700],
   ["2026-04-30",95.29,95.29,89.9,90.88,9231900],
   ["2026-05-01",92.77,100.01,92.21,99.7,10127600],
@@ -1909,8 +1908,7 @@ const ohlcv = [
   ["2026-10-22",85.69,87.97,84.59,86.62,11953100],
   ["2026-10-23",86.48,88.33,85.08,85.91,8672800],
   ["2026-10-26",82.36,82.8,78.81,79.84,11287500],
-  ["2026-10-27",79.26,81.77,78.32,81.58,7339700],
-  ["2026-10-28",80.44,82.04,79.26,80.44,4698152]
+  ["2026-10-27",79.26,81.77,78.32,81.58,7339700]
 ];
 
 // 技术指标计算
