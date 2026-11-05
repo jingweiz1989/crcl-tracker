@@ -201,20 +201,20 @@
 <!-- 顶部 KPI -->
 <div class="grid cols-5">
 <div class="card"><h3>当前股价</h3>
-<div class="kpi">$76.61 <span class="delta-up" style="font-size:14px;">+1.85%</span></div>
-<div class="kpi-sub">2026-11-04 收盘 · 自动更新 2026-11-05</div>
+<div class="kpi">$75.22 <span class="delta-up" style="font-size:14px;">+4.36%</span></div>
+<div class="kpi-sub">2026-11-03 收盘 · 自动更新 2026-11-05</div>
 </div>
 <div class="card"><h3>市值</h3>
 <div class="kpi">$26.4 B</div>
 <div class="kpi-sub">流通股 ~248.6M · EV ≈ $25.2B</div>
 </div>
 <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-<div class="kpi" id="usdcLive">$71.3 B</div>
+<div class="kpi" id="usdcLive">$71.1 B</div>
 <div class="kpi-sub" id="usdcLiveSub">DefiLlama 实时 · 自动刷新 2026-06-04</div>
 </div>
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-<div class="kpi" id="totalStableLive">$296 B</div>
-<div class="kpi-sub" id="totalStableSub">USDC 24.1% · USDT 60.1%</div>
+<div class="kpi" id="totalStableLive">$295 B</div>
+<div class="kpi-sub" id="totalStableSub">USDC 24.1% · USDT 60.2%</div>
 </div>
 <div class="card"><h3>分析师共识</h3>
 <div class="kpi">Buy</div>
@@ -646,7 +646,7 @@
 <section class="panel" id="market">
 <div class="grid cols-4">
 <div class="card"><h3>稳定币总市场 <span class="live">LIVE</span></h3>
-<div class="kpi" id="totalStableLive2">$296 B</div>
+<div class="kpi" id="totalStableLive2">$295 B</div>
 <div class="kpi-sub">过去 12 月 +47%</div>
 </div>
 <div class="card"><h3>USDT 流通 <span class="live">LIVE</span></h3>
@@ -654,7 +654,7 @@
 <div class="kpi-sub">市占 ~58.8% · 仍领先</div>
 </div>
 <div class="card"><h3>USDC 流通 <span class="live">LIVE</span></h3>
-<div class="kpi" id="usdcLive2">$71.3 B</div>
+<div class="kpi" id="usdcLive2">$71.1 B</div>
 <div class="kpi-sub">市占 ~24% · GENIUS Act 受益</div>
 </div>
 <div class="card"><h3>3M 美债收益率</h3>
@@ -739,7 +739,7 @@
 <h2 class="section-title">₿ 加密市场环境（与 Circle 周期高度相关）</h2>
 <div class="grid cols-4">
 <div class="card"><h3>BTC 现价</h3>
-<div class="kpi">~$80.0K</div>
+<div class="kpi">~$80.7K</div>
 <div class="kpi-sub">距 ATH $126K <span class="neg">-42%</span> · 2025/10/06</div>
 </div>
 <div class="card"><h3>BTC 市值</h3>
@@ -1783,7 +1783,6 @@ new Chart(document.getElementById('usdcShareChart'), {
 // CRCL 日线 OHLCV（2026-01-22 → 2026-05-28，89 个交易日）
 // Source: stockanalysis.com
 const ohlcv = [
-  ["2026-05-04",107.13,119.99,106.9,119.53,32606500],
   ["2026-05-05",121.4,121.4,112.45,114.19,22578400],
   ["2026-05-06",115.0,122.86,113.2,121.8,19293000],
   ["2026-05-07",118.26,120.48,109.6,113.25,21476800],
@@ -1910,8 +1909,7 @@ const ohlcv = [
   ["2026-10-29",79.74,81.2,78.58,79.99,6927000],
   ["2026-10-30",74.66,74.8,71.0,72.54,16273200],
   ["2026-11-02",71.96,75.88,71.5,72.08,9168000],
-  ["2026-11-03",72.74,76.62,72.7,75.22,8713200],
-  ["2026-11-04",74.04,77.58,72.38,76.61,12415123]
+  ["2026-11-03",72.74,76.62,72.7,75.22,8713200]
 ];
 
 // 技术指标计算
